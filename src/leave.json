@@ -1,0 +1,7 @@
+{
+  "data": {
+    "widgets":[{"type":"announcement", "title":"test", "text":"asdf"},{"type":"announcement", "text":"asdf"}],
+    "types": ["announcement"],
+    "title": "Announcements"
+  }
+}
