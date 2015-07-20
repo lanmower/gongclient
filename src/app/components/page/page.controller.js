@@ -19,7 +19,7 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootSco
   //$scope.data = pageService.getData($routeParams.fileId);
    var self = this;
    $scope.data = pageService.data;
-    $scope.data.pageloading = true;
+   $scope.data.pageloading = true;
    $scope.currentPage = $scope.data.currentPage;
 
    pageService.getPage(String($routeParams.fileId)).then(function(data) {

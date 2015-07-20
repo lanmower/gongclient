@@ -2,7 +2,7 @@
 /**
  * Service wrapper for gapi auth functions
  */
-angular.module('gong.login').service('login', ['$q', '$mdDialog', '$window', 'googleApi', 'clientId', 'scope', 'Restangular', function ($q, $mdDialog, $window, googleApi, clientId, scope, Restangular) {
+angular.module('gong.login').service('login', ['$q', '$mdDialog', '$window', '$routeParams', 'googleApi', 'clientId', 'scope', 'Restangular', function ($q, $mdDialog, $window, $routeParams, googleApi, clientId, scope, Restangular) {
     this.data = {isGuest:true};
 
   /**

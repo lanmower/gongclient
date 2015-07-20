@@ -52,9 +52,10 @@
         $scope.user = {name:'', image:''};
         $scope.$mdMedia = $mdMedia;
 
-          this.select = function($index) {
-            window.location.hash = $scope.menu[$index].location;
-          }
+      /** handle menu click */
+      this.select = function($index) {
+        window.location.hash = $scope.menu[$index].location;
+      }
 
         /**
          * Displays a short message as a toast

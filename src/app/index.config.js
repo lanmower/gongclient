@@ -38,7 +38,7 @@
         //}
       });
         $httpProvider.interceptors.push('authInterceptor');
-        RestangularProvider.setBaseUrl('http://advanced');
+        RestangularProvider.setBaseUrl('http://gong');
   }
 
 })();

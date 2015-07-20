@@ -19,11 +19,12 @@
      var self = this;
 
      this.data = {pages: [], currentPage:{data:{widgets:[]}}};
+
      this.getPage = function(location, $scope) {
          self.data.title = '';
          self.data.currentPage.data = {};
          var deferred=$q.defer();
-         var page = Restangular.allUrl('page','http://advanced/');
+         var page = Restangular.all('page');
          //wait for menu load, then load page based on id info from menu
          this.menuDeferred.promise.then(function(data) {
              var id = null;
@@ -34,7 +35,8 @@
                  }
              }
 
-             self.page = page.one('pages',id);
+             self.page = Restangular.one('page',id);
+             if(location == 'logout'){self.page = Restangular.one('site',id);}
              self.page.get().then(function(response) {
                  response.data = JSON.parse(response.page).data;
                  angular.copy(response, self.data.currentPage);
@@ -68,14 +70,15 @@
          var deferred = this.menuDeferred;
          if(this.data.pages.length == 0 || force) {
              console.log('test');
-             var pages = Restangular.allUrl('page','http://advanced/pages?fields=id,title,location');
+             var pages = Restangular.all('page',{'fields':'id,title,location'});
              pages.getList().then(function(data) {
+                 data.push({location: 'logout', title:'Logout', id:'logout'});
                  angular.copy(data,self.data.pages);
                  deferred.resolve(data);
              });
-             return deferred.promise;
+         } else {
+             deferred.resolve(this.data.pages);
          }
-         deferred.resolve(this.data.pages);
          return deferred.promise;
      }
 

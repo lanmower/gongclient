@@ -3,7 +3,7 @@
 angular.module('gong.post')
     .controller('PostCtrl',
         ["$sce", "$timeout", "$scope", '$attrs', '$mdSidenav', 'Restangular', function ($sce, $timeout, $scope, $attrs, $mdSidenav, Restangular) {
-            var posts = Restangular.all('posts');
+            var posts = Restangular.all('post');
             $scope.postloading = true;
 
             posts.getList().then(function(posts) {
