@@ -1,19 +1,21 @@
 <md-dialog>
-  <md-content layout-padding>
-      <form role="form">
-          <div class="form-group" style="display:inline-block">
-              <label for="username">Username</label><br>
-              <label for="password">Password</label>
-          </div>
-          <div class="form-group" style="display:inline-block">
-              <input ng-model="model.username" class="form-control" id="username" placeholder="Enter username" autofocus><br/>
-              <input type="password" ng-model="model.password" class="form-control" id="password" placeholder="Enter password">
-          </div>
-          <p>
-          </p>
-      </form>
-  </md-content>
-  <div class="md-actions" layout="row" layout-align="center center">
-    <md-button type="submit" ng-click="login(model)" class="btn btn-default">Log in</md-button>
-  </div>
+    <md-content layout-padding>
+        <form role="form">
+            <div class="form-group" style="display:inline-block">
+                <label for="username">Username</label><br>
+                <label for="password">Password</label>
+            </div>
+            <div class="form-group" style="display:inline-block">
+                <input ng-model="model.username" class="form-control" id="username" placeholder="Enter username"
+                       autofocus><br/>
+                <input type="password" ng-model="model.password" class="form-control" id="password"
+                       placeholder="Enter password">
+            </div>
+            <p>
+            </p>
+        </form>
+    </md-content>
+    <div class="md-actions" layout="row" layout-align="center center">
+        <md-button type="submit" ng-click="login(model)" class="btn btn-default">Log in</md-button>
+    </div>
 </md-dialog>

@@ -1,12 +1,12 @@
 <div ng-show="postloading" layout-align="center center" flex layout="column">
-    <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>
 <md-list ng-hide="postloading">
-  <md-list-item ng-repeat="post in posts">
-    <md-card layout-padding>
-      <h1>{{ post.title }}</h1>
-      {{ post.image.id }}
-      <div ta-bind ng-model="post.content"></div>
-    </md-card>
-  </md-list-item>
+    <md-list-item ng-repeat="post in posts">
+        <md-card layout-padding>
+            <h1>{{ post.title }}</h1>
+            {{ post.image.id }}
+            <div ta-bind ng-model="post.content"></div>
+        </md-card>
+    </md-list-item>
 </md-list>

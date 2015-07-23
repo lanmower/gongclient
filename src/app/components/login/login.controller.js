@@ -15,18 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var module = angular.module('gong.login', ['gong.gapi', 'ngMaterial']);
+var module = angular.module('gong.login', ['gong.gapi', 'ngMaterial', 'http-auth-interceptor']);
 
-module.controller('LoginCtrl', ['$http','$window','$mdDialog', '$scope','login', 'Restangular', function ($http,$window, $mdDialog, $scope, loginService, Restangular) {
-    $scope.model = { username: "", password: ""};
-    $scope.login = loginService.login;
+module.controller('LoginCtrl', ['$http', '$window', '$mdDialog', '$scope', 'login', 'Restangular', 'authService',function ($http, $window, $mdDialog, $scope, loginService, Restangular, authService) {
+    $scope.model = {username: "", password: ""};
 
-  /**
-   * Handle the login click.
-   */
-  this.login = function() {
-    loginService.login(user).then(function() {
-   		$mdDialog.hide();
-    });
-  };
+    /**
+     * Handle the login click.
+     */
+    $scope.login = function (user) {
+        loginService.login(user).then(function () {
+            authService.loginConfirmed();
+            loginService.hideLoginDialog();
+
+        });
+    };
 }]);

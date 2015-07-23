@@ -1,34 +1,36 @@
-<section layout="row" style="height:100%" flex>
-  <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-    <md-toolbar>
-    </md-toolbar>
-    <md-list-item ng-hide="loading" ng-repeat="item in menu"  ng-click="ctrl.select($index)" ng-class="{'selected' : item === ctrl.selected }">
-      {{item.title}}
-    </md-list-item>
-  </md-sidenav>
-  <md-sidenav class="md-sidenav-right" md-component-id="right">
-      <!--md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="true"-->
-    <player/>
-  </md-sidenav>
-  <md-content flex>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
+<section layout="row" style="height:100%" flex ng-hide="loginData.loggingIn">
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+        <md-toolbar>
+        </md-toolbar>
+        <md-list-item ng-repeat="item in menu" ng-click="ctrl.select($index)"
+                      ng-class="{'selected' : item === ctrl.selected }">
+            {{item.title}}
+        </md-list-item>
+    </md-sidenav>
+    <md-sidenav class="md-sidenav-right" md-component-id="right">
+        <!--md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="true"-->
+        <player/>
+    </md-sidenav>
+    <md-content flex>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
         <span ng-click="ctrl.showMenu()" aria-label="Show Menu" ng-show="!$mdMedia('gt-md')" style=" padding:0.5em;">
           <ng-md-icon class="ic_24px" icon="menu" style="fill:white;"></ng-md-icon>
         </span>
-        <img ng-src="{{user.image}}" class="md-whiteframe-z2" style="border-radius: 25px;
+                <img ng-src="{{user.image}}" class="md-whiteframe-z2" style="border-radius: 25px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;"></img>
-        {{user.name}}
-      </div>
-    </md-toolbar>
-    <md-button ng-click="player.showPlayer()" class="md-fab" aria-label="Eat cake" style="right:0px; top:2em; right:2em; position:fixed">
-      <ng-md-icon icon="play_arrow" size="40" style="fill:white;"></ng-md-icon>
-    </md-button>
+                {{user.name}}
+            </div>
+        </md-toolbar>
+        <md-button ng-click="player.showPlayer()" class="md-fab" aria-label="Eat cake"
+                   style="right:0px; top:2em; right:2em; position:fixed">
+            <ng-md-icon icon="play_arrow" size="40" style="fill:white;"></ng-md-icon>
+        </md-button>
 
-    <div ng-show="loading" layout-align="center center" flex layout="column">
-      <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
-    </div>
-    <div ng-hide="loading" ng-view class="view-fade"></div>
-  </md-content>
+        <div ng-view class="view-fade"></div>
+    </md-content>
 </section>
+<div class="loading" ng-hide="loginData.loggingIn" layout-align="center center" flex layout="column">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>

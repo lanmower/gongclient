@@ -22,7 +22,7 @@ angular.module('gong.post', ['restangular']).directive('posts', function ($compi
         restrict: "E",
         templateUrl: "app/components/post/post.html",
         scope: {
-          url:'='
+            url: '='
         }
     };
 });

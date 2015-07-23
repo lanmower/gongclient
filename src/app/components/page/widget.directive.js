@@ -20,29 +20,29 @@ angular.module('gong.page').directive('widget', function ($compile, $http) {
     return {
 
         restrict: "E",
-        link: function(scope, element, attrs) {
-          var refresh = function() {
-            var partial='app/partials/'+scope.contents.type;
-            partial += scope.contents.edit?'Edit':'';
-            partial += '.html';
-            $http.get(partial,{cache: true}).then(function (result) {
-                var prefix = '';
-                var suffix = '';
-                element.html(result.data);
-                $compile(element.contents())(scope);
-            });
-          }
+        link: function (scope, element, attrs) {
+            var refresh = function () {
+                var partial = 'app/partials/' + scope.contents.type;
+                partial += scope.contents.edit ? 'Edit' : '';
+                partial += '.html';
+                $http.get(partial, {cache: true}).then(function (result) {
+                    var prefix = '';
+                    var suffix = '';
+                    element.html(result.data);
+                    $compile(element.contents())(scope);
+                });
+            }
 
-          scope.$watch('contents.type', function(newValue, oldValue) {
+            scope.$watch('contents.type', function (newValue, oldValue) {
                 if (newValue) {
                     refresh();
                 }
-          }, true);
+            }, true);
 
-          //refresh();
+            //refresh();
         },
         scope: {
-            contents:'='
+            contents: '='
         }
     };
 });

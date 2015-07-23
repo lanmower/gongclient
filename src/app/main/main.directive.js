@@ -18,8 +18,8 @@
 
 angular.module('gong').directive('main', function ($compile, $http) {
     return {
-      templateUrl: 'app/main/main.html',
-      controller: 'MainController',
-      controllerAs: 'ctrl'
+        templateUrl: 'app/main/main.html',
+        controller: 'MainController',
+        controllerAs: 'ctrl'
     };
 });

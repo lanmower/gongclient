@@ -17,13 +17,13 @@
  */
 var module = angular.module('gong.login');
 
-module.controller('GoogleCtrl', ['$http','$window','$mdDialog', '$scope','login', 'user', function ($http,$window, $mdDialog, $scope, loginService, user) {
-  /**
-   * Handle the login click.
-   */
-  this.login = function() {
-    loginService.googleLogin(user).then(function() {
-   		$mdDialog.hide();
-    });
-  };
+module.controller('GoogleCtrl', ['$http', '$window', '$mdDialog', '$scope', 'login', 'user', function ($http, $window, $mdDialog, $scope, loginService, user) {
+    /**
+     * Handle the login click.
+     */
+    this.login = function () {
+        loginService.googleLogin(user).then(function () {
+            $mdDialog.hide();
+        });
+    };
 }]);

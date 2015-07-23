@@ -15,78 +15,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootScope','$scope', '$routeParams', 'Restangular', 'pageService', function ($mdDialog, $rootScope, $scope, $routeParams, Restangular, pageService) {
-  //$scope.data = pageService.getData($routeParams.fileId);
-   var self = this;
-   $scope.data = pageService.data;
-   $scope.data.pageloading = true;
-   $scope.currentPage = $scope.data.currentPage;
+angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootScope', '$scope', '$routeParams', 'Restangular', 'pageService', function ($mdDialog, $rootScope, $scope, $routeParams, Restangular, pageService) {
+    //$scope.data = pageService.getData($routeParams.fileId);
+    var self = this;
+    $scope.data = pageService.data;
+    $scope.data.pageloading = true;
+    $scope.currentPage = $scope.data.currentPage;
 
-   pageService.getPage(String($routeParams.fileId)).then(function(data) {
-       $scope.data.pageloading = false;
-   });
+    pageService.getPage(String($routeParams.fileId)).then(function (data) {
+        $scope.data.pageloading = false;
+    });
 
-  this.edit = function(index) {
-    var widget = $scope.currentPage.data.widgets[index];
-    var copy = angular.copy(widget);
-    widget.copy = copy;
-    widget.edit = true;
-  }
-
-  this.addWidget = function(e, index) {
-      console.log($scope.currentPage);
-    if($scope.currentPage.data.widgets.length > 0)
-      $scope.currentPage.data.widgets.splice(index, 0, {edit:true, new:true});
-    else {
-      $scope.currentPage.data.widgets.push({edit:true, new:true});
+    this.edit = function (index) {
+        var widget = $scope.currentPage.data.widgets[index];
+        var copy = angular.copy(widget);
+        widget.copy = copy;
+        widget.edit = true;
     }
-  }
 
-  this.editPage = function(edit) {
-    if(edit == true) $scope.currentPage.copy = angular.copy($scope.currentPage);
-    else angular.copy($scope.currentPage.copy, $scope.currentPage);
-    $scope.currentPage.edit = edit;
-      console.log($scope.currentPage);
-  }
-
-  this.savePage = function() {
-      pageService.savePage($scope);
-  }
-
-  /**
-  * Handle the save click
-  */
-  this.save = function(index) {
-      console.log($scope.currentPage);
-    delete $scope.currentPage.data.widgets[index].copy;
-    delete $scope.currentPage.data.widgets[index].new;
-    $scope.currentPage.data.widgets[index].edit = false;
-    $mdDialog.hide();
-  };
-
-  this.remove = function(index) {
-    $scope.currentPage.data.widgets.splice(index, 1);
-  }
-
-  this.moveUp = function(e,index) {
-    $scope.currentPage.data.widgets.splice(index + 1, 0, $scope.currentPage.data.widgets.splice(index, 1)[0]);
-  }
-
-  this.moveDown = function(e,index) {
-    $scope.currentPage.data.widgets.splice(index - 1, 0, $scope.currentPage.data.widgets.splice(index, 1)[0]);
-  }
-
-  /**
-  * Handle the cancel click.
-  */
-  this.cancel = function(index) {
-    if($scope.currentPage.data.widgets[index].new == true){
-      $scope.currentPage.data.widgets.splice(index, 1);
-    } else {
-      var widget = $scope.currentPage.data.widgets[index];
-      angular.copy(widget.copy, $scope.currentPage.data.widgets[index]);
-      delete widget.copy;
+    this.addWidget = function (e, index) {
+        console.log($scope.currentPage);
+        if ($scope.currentPage.data.widgets.length > 0)
+            $scope.currentPage.data.widgets.splice(index, 0, {edit: true, new: true});
+        else {
+            $scope.currentPage.data.widgets.push({edit: true, new: true});
+        }
     }
-  };
+
+    this.editPage = function (edit) {
+        if (edit == true) $scope.currentPage.copy = angular.copy($scope.currentPage);
+        else angular.copy($scope.currentPage.copy, $scope.currentPage);
+        $scope.currentPage.edit = edit;
+        console.log($scope.currentPage);
+    }
+
+    this.savePage = function () {
+        pageService.savePage($scope);
+    }
+
+    /**
+     * Handle the save click
+     */
+    this.save = function (index) {
+        console.log($scope.currentPage);
+        delete $scope.currentPage.data.widgets[index].copy;
+        delete $scope.currentPage.data.widgets[index].new;
+        $scope.currentPage.data.widgets[index].edit = false;
+        $mdDialog.hide();
+    };
+
+    this.remove = function (index) {
+        $scope.currentPage.data.widgets.splice(index, 1);
+    }
+
+    this.moveUp = function (e, index) {
+        $scope.currentPage.data.widgets.splice(index + 1, 0, $scope.currentPage.data.widgets.splice(index, 1)[0]);
+    }
+
+    this.moveDown = function (e, index) {
+        $scope.currentPage.data.widgets.splice(index - 1, 0, $scope.currentPage.data.widgets.splice(index, 1)[0]);
+    }
+
+    /**
+     * Handle the cancel click.
+     */
+    this.cancel = function (index) {
+        if ($scope.currentPage.data.widgets[index].new == true) {
+            $scope.currentPage.data.widgets.splice(index, 1);
+        } else {
+            var widget = $scope.currentPage.data.widgets[index];
+            angular.copy(widget.copy, $scope.currentPage.data.widgets[index]);
+            delete widget.copy;
+        }
+    };
 
 }]);

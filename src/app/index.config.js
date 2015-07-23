@@ -1,8 +1,8 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  var app = angular.module('gong');
-  app.config(config);
+    var app = angular.module('gong');
+    app.config(config);
 
     app.factory('authInterceptor', function ($rootScope, $q, $window) {
         return {
@@ -13,32 +13,37 @@
                 }
                 return config;
             },
-            response: function (response) {
-                if (response.status === 401) {
-                    console.log('log in plz');
-                    // handle the case where the user is not authenticated
-                }
-                return response || $q.when(response);
-            }
         };
     });
 
+    app.factory('authHttpResponseInterceptor', function ($q, $location, sessionService, $http, $rootScope) {
+        return {
+            response: function (response) {
+                return response || $q.when(response);
+            },
+            responseError: function (rejection) {
+                return $q.reject(rejection);
+            }
+        }
+    });
+
     /** @ngInject */
-  function config($logProvider, $routeProvider, RestangularProvider, $httpProvider) {
-    $routeProvider
-      .when('/:fileId?', {
-        templateUrl: 'app/components/page/page.html',
-        controller: 'PageController',
-        controllerAs: 'page'
-      })
-      .otherwise({
-        //redirectTo: function() {
-        //  console.log("Otherwise...");
-        //  return '/edit/';
-        //}
-      });
+    function config($logProvider, $routeProvider, RestangularProvider, $httpProvider) {
+        $routeProvider
+            .when('/:fileId?', {
+                templateUrl: 'app/components/page/page.html',
+                controller: 'PageController',
+                controllerAs: 'page'
+            })
+            .otherwise({
+                //redirectTo: function() {
+                //  console.log("Otherwise...");
+                //  return '/edit/';
+                //}
+            });
         $httpProvider.interceptors.push('authInterceptor');
-        RestangularProvider.setBaseUrl('http://gong');
-  }
+        $httpProvider.defaults.withCredentials = true;
+        RestangularProvider.setBaseUrl('http://advanced');
+    }
 
 })();

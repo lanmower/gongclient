@@ -1,5 +1,6 @@
 <div class="videogular-container">
-    <videogular vg-player-ready="player.onPlayerReady($API)" vg-complete="player.onCompleteVideo()" vg-theme="config.theme.url">
+    <videogular vg-player-ready="player.onPlayerReady($API)" vg-complete="player.onCompleteVideo()"
+                vg-theme="config.theme.url">
         <vg-media vg-src="config.sources"
                   vg-tracks="config.tracks">
         </vg-media>
@@ -24,7 +25,8 @@
     </videogular>
 </div>
 <md-list style="padding-right:20px">
-  <md-list-item ng-repeat="video in videos"  ng-click="player.select($index)" ng-class="{'selected' : video === videos.selected }">
-      {{video.title}}
-  </md-list-item>
+    <md-list-item ng-repeat="video in videos" ng-click="player.select($index)"
+                  ng-class="{'selected' : video === videos.selected }">
+        {{video.title}}
+    </md-list-item>
 </md-list>
