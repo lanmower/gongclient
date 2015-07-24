@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.Form').controller('FormController', ['$mdDialog', '$rootScope', '$scope', '$routeParams', 'Restangular', 'formService', function ($mdDialog, $rootScope, $scope, $routeParams, Restangular, formService) {
+angular.module('gong.form').controller('FormController', ['$mdDialog', '$rootScope', '$scope', '$routeParams', 'Restangular', 'formService', function ($mdDialog, $rootScope, $scope, $routeParams, Restangular, formService) {
     //$scope.data = FormService.getData($routeParams.fileId);
     var self = this;
     $scope.data = FormService.data;

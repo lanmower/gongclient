@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-angular.module('gong.page').directive('widget', function ($compile, $http) {
+angular.module('gong.form').directive('widget', function ($compile, $http) {
     return {
 
         restrict: "E",
