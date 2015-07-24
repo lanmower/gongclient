@@ -31,7 +31,7 @@ angular.module('gong.page').directive('widget', function ($compile, $http) {
                 });
             }
 
-            scope.$watch('contents.type', function (newValue, oldValue) {
+            scope.$watch('contents.type', function (newValue) {
                 if (newValue) {
                     refresh();
                 }

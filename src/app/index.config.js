@@ -43,7 +43,9 @@
             });
         $httpProvider.interceptors.push('authInterceptor');
         $httpProvider.defaults.withCredentials = true;
-        RestangularProvider.setBaseUrl('http://advanced');
+        $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
+        //RestangularProvider.setBaseUrl('http://gong');
+
     }
 
 })();

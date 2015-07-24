@@ -15,22 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.page', ['restangular']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
+angular.module('gong.form', ['restangular']).service('formService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
-    this.data = {pages: [], currentPage: {data: {widgets: []}}};
+    this.data = {forms: [], currentForm: {data: {widgets: []}}};
 
-    this.getPage = function (location, $scope) {
+    this.getForm = function (location, $scope) {
         self.data.title = '';
-        self.data.currentPage.data = {};
+        self.data.currentForm.data = {};
         var deferred = $q.defer();
-        //wait for menu load, then load page based on id info from menu
+        //wait for menu load, then load form based on id info from menu
         this.menuDeferred.promise.then(function (data) {
             var id = null;
             for (var x = 0; x < data.length; x++) {
                 if (data[x].location == location) {
                     id = data[x].id;
-                    self.data.currentPage.title = data[x].title;
+                    self.data.currentForm.title = data[x].title;
                 }
             }
             if (location == 'logout') {
@@ -41,36 +41,36 @@ angular.module('gong.page', ['restangular']).service('pageService', ['$http', '$
                 });
             } else {
                 var success = function (response) {
-                    if (typeof response.page ==  'string') {
-                        var data = JSON.parse(response.page).data;
+                    if (typeof response.form ==  'string') {
+                        var data = JSON.parse(response.form).data;
                         console.log('data');
                         console.log(response);
-                        angular.copy(response, self.data.currentPage);
-                        self.data.currentPage.data = JSON.parse(response.page);
-                        console.log('current page');
-                        console.log(self.data.currentPage);
+                        angular.copy(response, self.data.currentForm);
+                        self.data.currentForm.data = JSON.parse(response.form);
+                        console.log('current form');
+                        console.log(self.data.currentForm);
                     }
                     deferred.resolve(response);
                 };
-                self.page = Restangular.one('v1/page', id);
-                self.page.get().then(success, function (response) {
-                    console.log('error getting page');
+                self.form = Restangular.one('v1/form', id);
+                self.form.get().then(success, function (response) {
+                    console.log('error getting form');
                 });
             }
         });
         return deferred.promise;
     };
 
-    this.savePage = function () {
-        delete this.data.currentPage.copy;
-        self.page.page = null;
-        var page = JSON.stringify(this.data.currentPage.data);
-        var title = this.data.currentPage.title;
-        this.data.pageloading = true;
-        self.page.patch(
-            {'title':title, 'page':page}).then(function () {
-                self.data.currentPage.edit = false;
-                self.data.pageloading = false;
+    this.saveForm = function () {
+        delete this.data.currentForm.copy;
+        self.form.form = null;
+        var form = JSON.stringify(this.data.currentForm.data);
+        var title = this.data.currentForm.title;
+        this.data.formloading = true;
+        self.form.patch(
+            {'title':title, 'form':form}).then(function () {
+                self.data.currentForm.edit = false;
+                self.data.formloading = false;
                 self.getMenu(true).then(function () {
                 });
             });
@@ -79,15 +79,15 @@ angular.module('gong.page', ['restangular']).service('pageService', ['$http', '$
     this.menuDeferred = $q.defer();
     this.getMenu = function (force) {
         var deferred = this.menuDeferred;
-        if (this.data.pages.length == 0 || force) {
-            var pages = Restangular.all('v1/page', {'fields': 'id,title,location'});
-            pages.getList().then(function (data) {
+        if (this.data.forms.length == 0 || force) {
+            var forms = Restangular.all('v1/form', {'fields': 'id,title,location'});
+            forms.getList().then(function (data) {
                 data.push({location: 'logout', title: 'Logout', id: 'logout'});
-                angular.copy(data, self.data.pages);
+                angular.copy(data, self.data.forms);
                 deferred.resolve(data);
             });
         } else {
-            deferred.resolve(this.data.pages);
+            deferred.resolve(this.data.forms);
         }
         return deferred.promise;
     }
