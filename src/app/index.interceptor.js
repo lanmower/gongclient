@@ -57,7 +57,8 @@
             $httpProvider.interceptors.push(['$rootScope', '$q', 'httpBuffer', function ($rootScope, $q, httpBuffer) {
                 return {
                     responseError: function (rejection) {
-                        if (rejection.status === 403 && !rejection.config.ignoreAuthModule) {
+
+                        if (rejection.status === 403  && !rejection.config.ignoreAuthModule) {
                             var token = $rootScope.refresh_token;
                             console.log('attempting token update');
                             console.log(token);

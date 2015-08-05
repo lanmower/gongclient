@@ -44,8 +44,7 @@
         $httpProvider.interceptors.push('authInterceptor');
         $httpProvider.defaults.withCredentials = true;
         $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
-        //RestangularProvider.setBaseUrl('http://gong');
-
+        RestangularProvider.setBaseUrl('http://gong');
     }
 
 })();
