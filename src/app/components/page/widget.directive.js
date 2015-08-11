@@ -16,16 +16,19 @@
  * limitations under the License.
  */
 
-angular.module('gong.page').directive('widget', function ($compile, $http) {
-    return {
+angular.module('gong.page').directive('widget', function ($compile, $http, $templateCache) {
 
+    return {
         restrict: "E",
         link: function (scope, element) {
             var refresh = function () {
-                var partial = 'app/partials/' + scope.contents.type;
+                console.log(scope);
+                var partial = 'app/partials/';
+                partial += ''+scope.type+'/';
+                partial += scope.contents.type;
                 partial += scope.contents.edit ? 'Edit' : '';
                 partial += '.html';
-                $http.get(partial, {cache: true}).then(function (result) {
+                $http.get(partial, {cache: $templateCache}).then(function (result) {
                     element.html(result.data);
                     $compile(element.contents())(scope);
                 });
@@ -38,7 +41,8 @@ angular.module('gong.page').directive('widget', function ($compile, $http) {
             }, true);
         },
         scope: {
-            contents: '='
+            contents: '=',
+            type: '@',
         }
     };
 });

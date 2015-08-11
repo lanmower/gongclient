@@ -1,41 +1,19 @@
-<div class='layout-margin' ng-if="currentForm.edit != true">
-    <md-subheader class="md-primary ">
-        <span ng-click="form.editForm(true)">{{ currentForm.title }}<span
-                ng-if="!currentForm.title">Edit Form</span></span>
-    </md-subheader>
-    <div ng-show="data.formloading" layout-align="center center" flex layout="column">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-    </div>
-    <widget ng-hide="data.formloading" ng-repeat="widget in currentForm.data.widgets | orderBy:'rank'" contents='widget'
-            index="{{ $index }}"></widget>
-</div>
-<div class='layout-margin' ng-if="currentForm.edit == true">
-    <md-subheader>
-        <md-input-container style="display:inline-block; padding-bottom:0px">
-            <label>Title</label>
-            <input ng-model="currentForm.title" size="50" maxlength="45">
-        </md-input-container>
-        <md-button ng-click="form.saveForm()" style="height:2em">
-            Save
-        </md-button>
-        <md-button ng-click="form.editForm(false)" style="height:2em">
-            Cancel
-        </md-button>
-    </md-subheader>
+<div class='layout-margin'>
     <md-button class="widgetEditButton" ng-click="form.addWidget($event, $index)">
         Add
     </md-button>
-    <section ng-repeat="widget in currentForm.data.widgets | orderBy:'rank'">
+    <section ng-repeat="widget in contents.widgets | orderBy:'rank'">
+
     <span ng-if="widget.edit == true">
       <md-card>
-          <span ng-init="widget.type = widget.type || currentForm.data.types[0]"> </span>
+          <span ng-init="widget.type = widget.type || contents.types[0]"> </span>
           <md-content layout-padding>
-              <label ng-if="currentForm.data.types.length >= 2">Type</label>
-              <select ng-if="currentForm.data.types.length >= 2" ng-model="widget.type" ng-selected="widget.type"
-                      ng-options="type as type for type in currentForm.data.types"></select>
-              <select ng-if="currentForm.data.types.length < 2" ng-model="widget.type" ng-selected="widget.type"
-                      ng-options="type as type for type in currentForm.data.types" disabled></select>
-              <widget contents='widget' index="{{ $index }}"/>
+              <label ng-if="contents.types.length >= 2">Type</label>
+              <select ng-if="contents.types.length >= 2" ng-model="widget.type" ng-selected="widget.type"
+                      ng-options="type as type for type in contents.types"></select>
+              <select ng-if="contents.types.length < 2" ng-model="widget.type" ng-selected="widget.type"
+                      ng-options="type as type for type in contents.types" disabled></select>
+              <widget type='field' contents='widget' index="{{ $index }}"/>
           </md-content>
           <div class="md-actions" layout="row" layout-align="center center">
               <md-button ng-click="form.cancel($index)">
@@ -61,20 +39,20 @@
                 <md-button class="widgetEditButton" ng-click="form.edit($index)">
                     Edit
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="form.addWidget($event, $index)">
+                <md-button class="widgetEditButton" ng-click="form.addWidget($index)">
                     Add
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="form.moveDown($event, $index)">
+                <md-button class="widgetEditButton" ng-click="form.moveDown($index)">
                     Up
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="form.moveUp($event, $index)">
+                <md-button class="widgetEditButton" ng-click="form.moveUp($index)">
                     Down
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="form.remove(currentForm.data.widgets, $index)">
+                <md-button class="widgetEditButton" ng-click="form.remove(contents.widgets, $index)">
                     Remove
                 </md-button>
             </section>
-            <widget partial='/partials/{{ widget.type }}.html' contents='widget' index="{{ $index }}"/>
+            <widget partial='/partials/{{ widget.type }}.html' type='field' contents='widget' index="{{ $index }}"/>
         </div>
     </section>
 </div>

@@ -15,78 +15,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.form').controller('FormController', ['$mdDialog', '$rootScope', '$scope', '$routeParams', 'Restangular', 'formService', function ($mdDialog, $rootScope, $scope, $routeParams, Restangular, formService) {
-    //$scope.data = FormService.getData($routeParams.fileId);
+angular.module('gong.form').controller('FormController', ['$mdDialog', '$rootScope', '$scope', function ($mdDialog, $rootScope, $scope) {
     var self = this;
-    $scope.data = FormService.data;
-    $scope.data.formloading = true;
-    $scope.currentForm = $scope.data.currentForm;
-
-    FormService.getForm(String($routeParams.fileId)).then(function (data) {
-        $scope.data.formloading = false;
-    });
+    $scope.data = {formloading: true};
+    console.log($scope.contents);
+    $scope.contents.types = ['announcement', 'text'];
 
     this.edit = function (index) {
-        var widget = $scope.currentForm.data.widgets[index];
+        var widget = $scope.contents.widgets[index];
         var copy = angular.copy(widget);
         widget.copy = copy;
         widget.edit = true;
     }
 
-    this.addWidget = function (e, index) {
-        console.log($scope.currentForm);
-        if ($scope.currentForm.data.widgets.length > 0)
-            $scope.currentForm.data.widgets.splice(index, 0, {edit: true, new: true});
+    this.addWidget = function (index) {
+        if ($scope.contents.widgets.length > 0)
+            $scope.contents.widgets.splice(index, 0, {edit: true, new: true});
         else {
-            $scope.currentForm.data.widgets.push({edit: true, new: true});
+            $scope.contents.widgets.push({edit: true, new: true});
         }
-    }
-
-    this.editForm = function (edit) {
-        if (edit == true) $scope.currentForm.copy = angular.copy($scope.currentForm);
-        else angular.copy($scope.currentForm.copy, $scope.currentForm);
-        $scope.currentForm.edit = edit;
-        console.log($scope.currentForm);
-    }
-
-    this.saveForm = function () {
-        formService.saveForm($scope);
     }
 
     /**
      * Handle the save click
      */
     this.save = function (index) {
-        console.log($scope.currentForm);
-        delete $scope.currentForm.data.widgets[index].copy;
-        delete $scope.currentForm.data.widgets[index].new;
-        $scope.currentForm.data.widgets[index].edit = false;
+        delete $scope.contents.widgets[index].copy;
+        delete $scope.contents.widgets[index].new;
+        $scope.contents.widgets[index].edit = false;
         $mdDialog.hide();
     };
 
-    this.remove = function (index) {
-        $scope.currentForm.data.widgets.splice(index, 1);
+    this.remove = function (data, index) {
+        data.splice(index, 1);
     }
 
-    this.moveUp = function (e, index) {
-        $scope.currentForm.data.widgets.splice(index + 1, 0, $scope.currentForm.data.widgets.splice(index, 1)[0]);
+    this.moveUp = function (index) {
+        $scope.contents.widgets.splice(index + 1, 0, $scope.contents.widgets.splice(index, 1)[0]);
     }
 
-    this.moveDown = function (e, index) {
-        $scope.currentForm.data.widgets.splice(index - 1, 0, $scope.currentForm.data.widgets.splice(index, 1)[0]);
+    this.moveDown = function (index) {
+        $scope.contents.widgets.splice(index - 1, 0, $scope.contents.widgets.splice(index, 1)[0]);
     }
-
-    /**
-     * Handle the cancel click.
-     */
-    this.cancel = function (index) {
-        if ($scope.currentForm.data.widgets[index].new == true) {
-            $scope.currentForm.data.widgets.splice(index, 1);
-        } else {
-            var widget = $scope.currentForm.data.widgets[index];
-            angular.copy(widget.copy, $scope.currentForm.data.widgets[index]);
-            delete widget.copy;
-        }
-    };
-
 }]);

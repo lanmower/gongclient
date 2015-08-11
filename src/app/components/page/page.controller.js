@@ -34,7 +34,6 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootSco
     }
 
     this.addWidget = function (e, index) {
-        console.log($scope.currentPage);
         if ($scope.currentPage.data.widgets.length > 0)
             $scope.currentPage.data.widgets.splice(index, 0, {edit: true, new: true});
         else {
@@ -46,10 +45,14 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootSco
         if (edit == true) $scope.currentPage.copy = angular.copy($scope.currentPage);
         else angular.copy($scope.currentPage.copy, $scope.currentPage);
         $scope.currentPage.edit = edit;
-        console.log($scope.currentPage);
     }
 
     this.savePage = function () {
+        for(var x = 0; x < $scope.currentPage.data.widgets.length; x++) {
+            var widget = $scope.currentPage.data.widgets[x];
+            widget.edit = false;
+            delete widget.copy;
+        }
         pageService.savePage($scope);
     }
 
@@ -61,7 +64,6 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootSco
         delete $scope.currentPage.data.widgets[index].copy;
         delete $scope.currentPage.data.widgets[index].new;
         $scope.currentPage.data.widgets[index].edit = false;
-        $mdDialog.hide();
     };
 
     this.remove = function (index) {
@@ -84,6 +86,7 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootSco
             $scope.currentPage.data.widgets.splice(index, 1);
         } else {
             var widget = $scope.currentPage.data.widgets[index];
+            widget.edit = false;
             angular.copy(widget.copy, $scope.currentPage.data.widgets[index]);
             delete widget.copy;
         }

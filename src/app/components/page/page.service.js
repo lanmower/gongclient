@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.page', ['restangular']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
+angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
     this.data = {pages: [], currentPage: {data: {widgets: []}}};
@@ -41,15 +41,11 @@ angular.module('gong.page', ['restangular']).service('pageService', ['$http', '$
                 });
             } else {
                 var success = function (response) {
-                    if (typeof response.page ==  'string') {
+                    if (typeof response.page == 'string') {
                         var data = JSON.parse(response.page).data;
-                        console.log('data');
-                        console.log(response);
                         angular.copy(response, self.data.currentPage);
                         self.data.currentPage.data = JSON.parse(response.page);
-                        console.log('current page');
-                        console.log(self.data.currentPage);
-                    }
+                   }
                     deferred.resolve(response);
                 };
                 self.page = Restangular.one('v1/page', id);
@@ -63,8 +59,8 @@ angular.module('gong.page', ['restangular']).service('pageService', ['$http', '$
 
     this.savePage = function () {
         delete this.data.currentPage.copy;
-        self.page.page = null;
         var page = JSON.stringify(this.data.currentPage.data);
+        console.log("PAGE:"+page);
         var title = this.data.currentPage.title;
         this.data.pageloading = true;
         self.page.patch(

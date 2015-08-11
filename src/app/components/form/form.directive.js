@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-angular.module('gong.form').directive('forms', function ($compile, $http) {
+angular.module('gong.form',[]).directive('dynamicform', function ($compile, $http) {
     return {
-        controller: 'FormCtrl',
+        controller: 'FormController',
         controllerAs: 'form',
         restrict: "E",
         templateUrl: "app/components/form/form.html",
         scope: {
-            url: '='
+            contents: '='
         }
     };
 });

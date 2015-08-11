@@ -7,7 +7,7 @@
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
     <widget ng-hide="data.pageloading" ng-repeat="widget in currentPage.data.widgets | orderBy:'rank'" contents='widget'
-            index="{{ $index }}"></widget>
+            type="widget" index="{{ $index }}"></widget>
 </div>
 <div class='layout-margin' ng-if="currentPage.edit == true">
     <md-subheader>
@@ -35,7 +35,7 @@
                       ng-options="type as type for type in currentPage.data.types"></select>
               <select ng-if="currentPage.data.types.length < 2" ng-model="widget.type" ng-selected="widget.type"
                       ng-options="type as type for type in currentPage.data.types" disabled></select>
-              <widget contents='widget' index="{{ $index }}"/>
+              <widget type='widget' contents='widget' index="{{ $index }}"/>
           </md-content>
           <div class="md-actions" layout="row" layout-align="center center">
               <md-button ng-click="page.cancel($index)">
@@ -74,7 +74,7 @@
                     Remove
                 </md-button>
             </section>
-            <widget partial='/partials/{{ widget.type }}.html' contents='widget' index="{{ $index }}"/>
+            <widget contents='widget' type="widget" index="{{ $index }}"/>
         </div>
     </section>
 </div>

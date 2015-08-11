@@ -1,0 +1,4 @@
+<div class='layout-margin' ng-if="edit != true">
+    <widget type='field' ng-repeat="widget in contents.widgets | orderBy:'rank'" contents='widget'
+            index="{{ $index }}"></widget>
+</div>

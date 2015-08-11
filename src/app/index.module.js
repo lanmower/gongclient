@@ -12,6 +12,7 @@
         'gong.player',
         'gong.post',
         'gong.calendar',
+        'gong.form',
         //'http-auth-interceptor',
         'ngAnimate',
         'ngCookies',
