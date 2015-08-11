@@ -1,5 +1,4 @@
 'use strict'
-
 /*
  * Copyright 2015 Almagest Fraternite All Rights Reserved.
  *
@@ -15,17 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var module = angular.module('gong.login', ['gong.gapi', 'ngMaterial', 'http-auth-interceptor']);
 
-module.controller('LoginCtrl', ['$http', '$window', '$scope', 'login', 'Restangular', 'authService', function ($http, $window, $scope, loginService, Restangular, authService) {
-    $scope.model = {username: "", password: ""};
-    console.log('login controller');
-    /**
-     * Handle the login click.
-     */
-    $scope.login = function (user) {
-        loginService.login(user).then(function () {
-            authService.loginConfirmed();
-        });
+angular.module('gong.login').directive('login', function ($compile, $http) {
+    return {
+        controller: 'LoginCtrl',
+        controllerAs: 'login',
+        restrict: "E",
+        templateUrl: "app/components/login/login.html",
     };
-}]);
+});

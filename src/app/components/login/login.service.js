@@ -2,7 +2,7 @@
 /**
  * Service wrapper for gapi auth functions
  */
-angular.module('gong.login').service('login', ['$q', '$mdDialog', '$window', '$routeParams', 'googleApi', 'clientId', 'scope', 'Restangular', function ($q, $mdDialog, $window, $routeParams, googleApi, clientId, scope, Restangular) {
+angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 'googleApi', 'clientId', 'scope', 'Restangular', function ($q, $window, $routeParams, googleApi, clientId, scope, Restangular) {
     this.data = {isGuest: true, loggingIn: false};
 
     /**
@@ -157,7 +157,6 @@ angular.module('gong.login').service('login', ['$q', '$mdDialog', '$window', '$r
 
     this.hideLoginDialog = function() {
         this.data.loggingIn = false;
-        $mdDialog.hide();
     }
 
     /**
@@ -167,18 +166,12 @@ angular.module('gong.login').service('login', ['$q', '$mdDialog', '$window', '$r
      * @param {String} user Optional user ID hint if a particular account is required
      */
     this.showLoginDialog = function ($event, user) {
-        this.data.loggingIn = true;
-        return $mdDialog.show({
-            targetEvent: $event,
-            templateUrl: "app/components/login/login.html",
-            controller: 'LoginCtrl',
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            controllerAs: 'ctrl',
-            locals: {
-                user: user
-            }
-        });
+        if(this.data.loggingIn == false) {
+            this.data.loggingIn = true;
+
+            //controller: 'LoginCtrl',
+            //templateUrl: "app/components/login/login.html",
+        }
     };
 
     /**

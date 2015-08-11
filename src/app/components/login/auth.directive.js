@@ -16,8 +16,10 @@ angular.module('gong.login').directive('gongAuth', ['login', 'authService', func
 
             scope.$on('event:auth-loginRequired', function() {
                 loginService.showLoginDialog();
+
             });
             scope.$on('event:auth-loginConfirmed', function() {
+                console.log('hiding login');
                 loginService.hideLoginDialog();
             });
         }
