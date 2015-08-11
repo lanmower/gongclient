@@ -58,19 +58,19 @@
         </style>
         <div ng-if="widget.edit != true">
             <section style="position:absolute;">
-                <md-button class="widgetEditButton" ng-click="page.edit($index)">
+                <md-button class="widgetEditButton btn-dark" ng-click="page.edit($index)">
                     Edit
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="page.addWidget($event, $index)">
+                <md-button class="widgetEditButton btn-dark" ng-click="page.addWidget($event, $index)">
                     Add
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="page.moveDown($event, $index)">
+                <md-button class="widgetEditButton btn-dark" ng-click="page.moveDown($event, $index)">
                     Up
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="page.moveUp($event, $index)">
+                <md-button class="widgetEditButton btn-dark" ng-click="page.moveUp($event, $index)">
                     Down
                 </md-button>
-                <md-button class="widgetEditButton" ng-click="page.remove(currentPage.data.widgets, $index)">
+                <md-button class="widgetEditButton btn-dark" ng-click="page.remove(currentPage.data.widgets, $index)">
                     Remove
                 </md-button>
             </section>

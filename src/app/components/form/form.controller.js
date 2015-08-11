@@ -19,8 +19,8 @@ angular.module('gong.form').controller('FormController', ['$mdDialog', '$rootSco
     var self = this;
     $scope.data = {formloading: true};
     console.log($scope.contents);
-    $scope.contents.types = ['announcement', 'text'];
-
+    $scope.contents.types = ['announcement', 'text', 'textArea', 'checkBox', 'radioButton','select'];
+    if(!$scope.contents.widgets) $scope.contents.widgets = [];
     this.edit = function (index) {
         var widget = $scope.contents.widgets[index];
         var copy = angular.copy(widget);
