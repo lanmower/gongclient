@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootScope', '$scope', '$routeParams', 'Restangular', 'pageService', function ($mdDialog, $rootScope, $scope, $routeParams, Restangular, pageService) {
+angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout', '$rootScope', '$scope', '$routeParams', 'Restangular', 'pageService', function ($mdDialog, $timeout, $rootScope, $scope, $routeParams, Restangular, pageService) {
     //$scope.data = pageService.getData($routeParams.fileId);
     var self = this;
     $scope.data = pageService.data;
@@ -60,22 +60,30 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$rootSco
      * Handle the save click
      */
     this.save = function (index) {
-        console.log($scope.currentPage);
         delete $scope.currentPage.data.widgets[index].copy;
         delete $scope.currentPage.data.widgets[index].new;
         $scope.currentPage.data.widgets[index].edit = false;
     };
 
     this.remove = function (index) {
-        $scope.currentPage.data.widgets.splice(index, 1);
+        var idx = $scope.currentPage.data.widgets.indexOf(widget);
+        $scope.currentPage.data.widgets.splice(idx, 1);
     }
 
-    this.moveUp = function (e, index) {
-        $scope.currentPage.data.widgets.splice(index + 1, 0, $scope.currentPage.data.widgets.splice(index, 1)[0]);
+    this.moveUp = function (e, widget) {
+        var idx = $scope.currentPage.data.widgets.indexOf(widget);
+        $scope.currentPage.data.widgets.splice(idx, 1);
+        $timeout(function(){
+            $scope.currentPage.data.widgets.splice(idx-1, 0, widget);
+        });
     }
 
-    this.moveDown = function (e, index) {
-        $scope.currentPage.data.widgets.splice(index - 1, 0, $scope.currentPage.data.widgets.splice(index, 1)[0]);
+    this.moveDown = function (e, widget) {
+        var idx = $scope.currentPage.data.widgets.indexOf(widget);
+        $scope.currentPage.data.widgets.splice(idx, 1);
+        $timeout(function(){
+            $scope.currentPage.data.widgets.splice(idx+1, 0, widget);
+        });
     }
 
     /**

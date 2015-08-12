@@ -1,16 +1,13 @@
 <div class='layout-margin' ng-if="currentPage.edit != true">
-    <md-subheader class="md-primary ">
-        <span ng-click="page.editPage(true)">{{ currentPage.title }}<span
-                ng-if="!currentPage.title">Edit Page</span></span>
-    </md-subheader>
     <div ng-show="data.pageloading" layout-align="center center" flex layout="column">
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
-    <widget ng-hide="data.pageloading" ng-repeat="widget in currentPage.data.widgets | orderBy:'rank'" contents='widget'
-            type="widget" index="{{ $index }}"></widget>
 </div>
-<div class='layout-margin' ng-if="currentPage.edit == true">
-    <md-subheader>
+<div class='layout-margin'>
+    <md-subheader class="md-primary">
+        <span ng-if="currentPage.edit != true" ng-click="page.editPage(true)">{{ currentPage.title }}<span
+                ng-if="!currentPage.title">Edit Page</span></span>
+        <span ng-if="currentPage.edit == true">
         <md-input-container style="display:inline-block; padding-bottom:0px">
             <label>Title</label>
             <input ng-model="currentPage.title" size="50" maxlength="45">
@@ -21,32 +18,12 @@
         <md-button ng-click="page.editPage(false)" style="height:2em">
             Cancel
         </md-button>
+        </span>
     </md-subheader>
-    <md-button class="widgetEditButton" ng-click="page.addWidget($event, $index)">
+    <!--md-button class="widgetEditButton" ng-click="page.addWidget($event, $index)">
         Add
-    </md-button>
+    </md-button-->
     <section ng-repeat="widget in currentPage.data.widgets | orderBy:'rank'">
-    <span ng-if="widget.edit == true">
-      <md-card>
-          <span ng-init="widget.type = widget.type || currentPage.data.types[0]"> </span>
-          <md-content layout-padding>
-              <label ng-if="currentPage.data.types.length >= 2">Type</label>
-              <select ng-if="currentPage.data.types.length >= 2" ng-model="widget.type" ng-selected="widget.type"
-                      ng-options="type as type for type in currentPage.data.types"></select>
-              <select ng-if="currentPage.data.types.length < 2" ng-model="widget.type" ng-selected="widget.type"
-                      ng-options="type as type for type in currentPage.data.types" disabled></select>
-              <widget type='widget' contents='widget' index="{{ $index }}"/>
-          </md-content>
-          <div class="md-actions" layout="row" layout-align="center center">
-              <md-button ng-click="page.cancel($index)">
-                  Cancel
-              </md-button>
-              <md-button ng-click="page.save($index)">
-                  Ok
-              </md-button>
-          </div>
-      </md-card>
-    </span>
         <style>
             .widgetEditButton {
                 color: #aaa;
@@ -56,25 +33,45 @@
                 color: #ccc;
             }
         </style>
-        <div ng-if="widget.edit != true">
-            <section style="position:absolute;">
-                <md-button class="widgetEditButton btn-dark" ng-click="page.edit($index)">
-                    Edit
+        <md-fab-speed-dial md-direction="left" ng-if="currentPage.edit == true" style="position:absolute;right:90px;">
+            <md-fab-trigger>
+                <md-button aria-label="menu" class="md-fab md-warn md-mini" ng-click="page.edit($index)">
+                    <ng-md-icon icon="edit"></md-icon>
                 </md-button>
-                <md-button class="widgetEditButton btn-dark" ng-click="page.addWidget($event, $index)">
-                    Add
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button aria-label="Remove" class="md-fab md-raised md-mini" ng-click="page.remove(currentPage.data.widgets, $index)">
+                    <ng-md-icon icon="remove_circle"></md-icon>
                 </md-button>
-                <md-button class="widgetEditButton btn-dark" ng-click="page.moveDown($event, $index)">
-                    Up
+                <md-button aria-label="Add" class="md-fab md-raised md-mini" ng-click="page.addWidget($event, $index)">
+                    <ng-md-icon icon="add_circle"></md-icon>
                 </md-button>
-                <md-button class="widgetEditButton btn-dark" ng-click="page.moveUp($event, $index)">
-                    Down
+                <md-button aria-label="Up" class="md-fab md-raised md-mini" ng-click="page.moveUp($event, widget)">
+                    <ng-md-icon icon="keyboard_arrow_up"></md-icon>
                 </md-button>
-                <md-button class="widgetEditButton btn-dark" ng-click="page.remove(currentPage.data.widgets, $index)">
-                    Remove
+                <md-button aria-label="Down" class="md-fab md-raised md-mini" ng-click="page.moveDown($event, widget)">
+                    <ng-md-icon icon="keyboard_arrow_down"></md-icon>
                 </md-button>
-            </section>
-            <widget contents='widget' type="widget" index="{{ $index }}"/>
-        </div>
-    </section>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+        <md-card ng-if="widget.edit == true" >
+            <span ng-init="widget.type = widget.type || currentPage.data.types[0]"> </span>
+            <md-content layout-padding>
+                <label ng-if="currentPage.data.types.length >= 2">Type</label>
+                <select ng-if="currentPage.data.types.length >= 2" ng-model="widget.type" ng-selected="widget.type"
+                        ng-options="type as type for type in currentPage.data.types"></select>
+                <select ng-if="currentPage.data.types.length < 2" ng-model="widget.type" ng-selected="widget.type"
+                        ng-options="type as type for type in currentPage.data.types" disabled></select>
+                <widget type='widget' contents='widget' index="{{ $index }}"/>
+            </md-content>
+            <div class="md-actions" layout="row" layout-align="center center">
+                <md-button ng-click="page.cancel($index)">
+                    Cancel
+                </md-button>
+                <md-button ng-click="page.save($index)">
+                    Ok
+                </md-button>
+            </div>
+        </md-card>
+        <widget ng-if="widget.edit != true" contents='widget' type="widget" index="{{ $index }}"/>
 </div>

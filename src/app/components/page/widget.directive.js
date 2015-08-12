@@ -22,7 +22,6 @@ angular.module('gong.page').directive('widget', function ($compile, $http, $temp
         restrict: "E",
         link: function (scope, element) {
             var refresh = function () {
-                console.log(scope);
                 var partial = 'app/partials/';
                 partial += ''+scope.type+'/';
                 partial += scope.contents.type;
