@@ -19,7 +19,7 @@ angular.module('gong.login').directive('login', function ($compile, $http) {
     return {
         controller: 'LoginCtrl',
         controllerAs: 'login',
-        restrict: "E",
+        restrict: "C",
         templateUrl: "app/components/login/login.html",
     };
 });

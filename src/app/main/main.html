@@ -1,5 +1,5 @@
-<login ng-show="loginData.loggingIn"></login>
-<section layout="row" style="height:100%" flex ng-hide="loginData.loggingIn">
+<div class="login fade" flex ng-hide="!loginData.loggingIn"></div>
+<section layout="row" class="fade" flex ng-hide="loginData.loggingIn">
     <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
         <md-toolbar>
         </md-toolbar>

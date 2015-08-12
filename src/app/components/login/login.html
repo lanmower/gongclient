@@ -1,11 +1,30 @@
 <style>
-    .login {
-        background:grey;
-        height:100%;
+    .fade.ng-hide-add.ng-hide-add-active         { animation:.5s fadeOut ease; }
+    .fade.ng-hide-remove.ng-hide-remove-active      { animation:.5s fadeIn ease; }
 
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* light speed out */
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            height:0px;
+
+        }
     }
 </style>
-<div flex class="login">
 <form role="form">
     <div class="form-group" style="display:inline-block">
         <label for="username">Username</label><br>
@@ -19,4 +38,3 @@
     </div>
     <md-button type="submit" ng-click="login(model)" class="btn btn-default">Log in</md-button>
 </form>
-</div>
