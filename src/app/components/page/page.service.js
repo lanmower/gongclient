@@ -19,67 +19,80 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
     var self = this;
 
     this.data = {pages: [], currentPage: {data: {widgets: []}}};
-
+    var listDeferred = $q.defer();
     this.getPage = function (location, $scope) {
         self.data.title = '';
         self.data.currentPage.data = {};
         var deferred = $q.defer();
         //wait for menu load, then load page based on id info from menu
-        this.menuDeferred.promise.then(function (data) {
+        listDeferred.promise.then(function (data) {
             var id = null;
-            for (var x = 0; x < data.length; x++) {
-                if (data[x].location == location) {
-                    id = data[x].id;
-                    self.data.currentPage.title = data[x].title;
-                }
-            }
             if (location == 'logout') {
                 loginService.logout().then(function () {
                     console.log('logged out');
+                    this.getPages(true).then(function(pages) {
+
+                    });
                 }, function (response) {
                     console.log('error');
                 });
             } else {
-                var success = function (response) {
-                    if (typeof response.page == 'string') {
-                        var data = JSON.parse(response.page).data;
-                        angular.copy(response, self.data.currentPage);
-                        self.data.currentPage.data = JSON.parse(response.page);
-                   }
-                    deferred.resolve(response);
-                };
-                self.page = Restangular.one('v1/page', id);
-                self.page.get().then(success, function (response) {
-                    console.log('error getting page');
-                });
+                for (var x = 0; x < data.length; x++) {
+                    if (data[x].location == location) {
+                        id = data[x].id;
+                        self.data.currentPage = data[x];
+                        if(self.data.currentPage.page) self.data.currentPage.data = JSON.parse(self.data.currentPage.page);
+
+                        deferred.resolve(self.data.currentPage);
+                    }
+                }
             }
         });
         return deferred.promise;
     };
 
     this.savePage = function () {
+
         delete this.data.currentPage.copy;
+        console.log(this.data.currentPage);
         var page = JSON.stringify(this.data.currentPage.data);
-        console.log("PAGE:"+page);
         var title = this.data.currentPage.title;
         this.data.pageloading = true;
-        self.page.patch(
-            {'title':title, 'page':page}).then(function () {
-                self.data.currentPage.edit = false;
-                self.data.pageloading = false;
-                self.getMenu(true).then(function () {
+        if(!this.data.currentPage.newItem) {
+            this.data.currentPage.patch(
+                {'title':title, 'location':this.data.currentPage.location, 'page':page}).then(function () {
+                    console.log('saved');
+                    self.data.currentPage.edit = false;
+                    self.data.pageloading = false;
+                    self.getPages().then(function () {
+                        console.log('refreshed');
+                    });
                 });
-            });
+        } else {
+            delete this.data.currentPage.newItem;
+            self.getPages().then(function(data){
+                    console.log('new item');
+                    data.post({'title':title, 'location':self.data.currentPage.location, 'page':page}).then(function () {
+                        console.log('saved');
+                        self.data.currentPage.edit = false;
+                        self.data.pageloading = false;
+                        self.getPages().then(function () {
+                            console.log('refreshed');
+                        });
+                    });
+                }
+            );
+        }
+
     }
 
-    this.menuDeferred = $q.defer();
-    this.getMenu = function (force) {
-        var deferred = this.menuDeferred;
+    this.getPages = function (force) {
+        var deferred = listDeferred;
         if (this.data.pages.length == 0 || force) {
             var pages = Restangular.all('v1/page', {'fields': 'id,title,location'});
             pages.getList().then(function (data) {
                 data.push({location: 'logout', title: 'Logout', id: 'logout'});
-                angular.copy(data, self.data.pages);
+                self.data.pages = data;
                 deferred.resolve(data);
             });
         } else {
@@ -87,6 +100,4 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
         }
         return deferred.promise;
     }
-
-
 }])

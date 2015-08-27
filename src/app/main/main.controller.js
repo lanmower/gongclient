@@ -18,6 +18,7 @@
             'googleApi',
             'Restangular',
             'pageService',
+            'editService',
             MainController]);
 
     /** @ngInject */
@@ -34,12 +35,8 @@
                             renameDialog,
                             googleApi,
                             Restangular,
-                            pageService) {
-
-        $scope.menu = [];
-        pageService.getMenu().then(function (data) {
-            $scope.menu = pageService.data.pages;
-        });
+                            pageService,
+                            editService) {
 
         $scope.site = {
             title: 'Coastal Accounting Intranet'
@@ -50,11 +47,10 @@
         $scope.user = {name: '', image: ''};
         $scope.$mdMedia = $mdMedia;
         $scope.loginData = login.data;
+        $scope.page = pageService.data;
+        $scope.edit = editService.getData();
+        console.log($scope.loginData);
 
-        /** handle menu click */
-        this.select = function ($index) {
-            window.location.hash = $scope.menu[$index].location;
-        }
 
         /**
          * Displays a short message as a toast
@@ -65,8 +61,9 @@
             $mdToast.show($mdToast.simple().content(message));
         };
 
-        this.showMenu = function () {
-            $mdSidenav('left').toggle();
+        this.showMenu = function (side) {
+            if(!side) side = "left";
+            $mdSidenav(side).toggle();
         }
 
         this.getUserInfo = function () {

@@ -123,8 +123,15 @@ md-dialog {background-color: rgb(255, 123, 17);}
   background-color: rgb(59, 59, 59);;
 }
 
-
-
+.content-wrapper {
+  position: relative;
+}
+#primary-col {
+  overflow: hidden;
+}
+edit {
+  overflow:auto;
+}
 
 /**
  *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
