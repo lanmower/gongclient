@@ -20,84 +20,33 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
     var self = this;
     $scope.data = pageService.data;
     $scope.data.pageloading = true;
-    $scope.currentPage = $scope.data.currentPage;
-
+    console.log($scope.data.currentPage);
     pageService.getPage(String($routeParams.fileId)).then(function (data) {
         $scope.data.pageloading = false;
     });
 
-    this.edit = function (index) {
-        var widget = $scope.currentPage.data.widgets[index];
-        var copy = angular.copy(widget);
-        widget.copy = copy;
-        widget.edit = true;
+    this.edit = function (edit) {
+        if (edit == true) $scope.data.currentPage.copy = angular.copy($scope.data.currentPage);
+        else angular.copy($scope.data.currentPage.copy, $scope.data.currentPage);
+        $scope.data.currentPage.edit = edit;
     }
 
-    this.addWidget = function (e, index) {
-        if ($scope.currentPage.data.widgets.length > 0)
-            $scope.currentPage.data.widgets.splice(index, 0, {edit: true, new: true});
-        else {
-            $scope.currentPage.data.widgets.push({edit: true, new: true});
-        }
-    }
-
-    this.editPage = function (edit) {
-        if (edit == true) $scope.currentPage.copy = angular.copy($scope.currentPage);
-        else angular.copy($scope.currentPage.copy, $scope.currentPage);
-        $scope.currentPage.edit = edit;
-    }
-
-    this.savePage = function () {
-        for(var x = 0; x < $scope.currentPage.data.widgets.length; x++) {
-            var widget = $scope.currentPage.data.widgets[x];
+    this.save = function () {
+        console.log($scope.data.currentPage);
+        for(var x = 0; x < $scope.data.currentPage.data.widgets.length; x++) {
+            var widget = $scope.data.currentPage.data.widgets[x];
             widget.edit = false;
             delete widget.copy;
         }
-        pageService.savePage($scope);
+        pageService.savePage();
     }
 
-    /**
-     * Handle the save click
-     */
-    this.save = function (index) {
-        delete $scope.currentPage.data.widgets[index].copy;
-        delete $scope.currentPage.data.widgets[index].new;
-        $scope.currentPage.data.widgets[index].edit = false;
-    };
-
-    this.remove = function (index) {
-        var idx = $scope.currentPage.data.widgets.indexOf(widget);
-        $scope.currentPage.data.widgets.splice(idx, 1);
-    }
-
-    this.moveUp = function (e, widget) {
-        var idx = $scope.currentPage.data.widgets.indexOf(widget);
-        $scope.currentPage.data.widgets.splice(idx, 1);
-        $timeout(function(){
-            $scope.currentPage.data.widgets.splice(idx-1, 0, widget);
+    $scope.selection = [[],[]];
+    $scope.$watch('selection', function () {
+        console.log('change', $scope.selection);
+        $scope.data.types = [];
+        angular.forEach($scope.selection, function (value, index) {
+            $scope.data.types[index]=value;
         });
-    }
-
-    this.moveDown = function (e, widget) {
-        var idx = $scope.currentPage.data.widgets.indexOf(widget);
-        $scope.currentPage.data.widgets.splice(idx, 1);
-        $timeout(function(){
-            $scope.currentPage.data.widgets.splice(idx+1, 0, widget);
-        });
-    }
-
-    /**
-     * Handle the cancel click.
-     */
-    this.cancel = function (index) {
-        if ($scope.currentPage.data.widgets[index].new == true) {
-            $scope.currentPage.data.widgets.splice(index, 1);
-        } else {
-            var widget = $scope.currentPage.data.widgets[index];
-            widget.edit = false;
-            angular.copy(widget.copy, $scope.currentPage.data.widgets[index]);
-            delete widget.copy;
-        }
-    };
-
+    }, true);
 }]);
