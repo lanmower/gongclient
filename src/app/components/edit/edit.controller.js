@@ -15,7 +15,7 @@ angular.module('gong.edit')
         }*/
 
         $scope.data = editService.getData();
-        $scope.page = pageService.data.currentPage;
+        $scope.page = pageService.data;
 
     }]
 );
