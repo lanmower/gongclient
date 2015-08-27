@@ -101,6 +101,10 @@ html {
 
 /** GONG CSS */
 
+a.md-button:not([disabled]):hover, .md-button:not([disabled]):hover {
+  background-color: #D9D5D2;
+}
+
 .md-button.md-fab ng-md-icon svg{vertical-align: middle;}
 md-backdrop.md-opaque{background-color: rgba(0,0,0,0.50);}
 md-dialog {background-color: rgb(255, 123, 17);}
@@ -118,6 +122,8 @@ md-dialog {background-color: rgb(255, 123, 17);}
   color: white;
   background-color: rgb(59, 59, 59);;
 }
+
+
 
 
 /**
