@@ -4,55 +4,54 @@
         </ng-md-icon>
     </md-button-->
 </div>
-<div ng-repeat="widget in widgets | orderBy:'rank'">
-    <style>
-        .widgetEditButton {
-            color: #aaa;
-        }
 
-        .widgetEditButton:hover {
-            color: #ccc;
-        }
-    </style>
-    <section>
-        <md-menu ng-if="edit == true" style="position: absolute;right: 0px;">
-            <md-button aria-label="Open phone interactions menu" class="md-icon-button md-primary" ng-click="widgetsCtrl.openMenu($mdOpenMenu, $event)">
-                <ng-md-icon class="ic_24px" icon="menu"></ng-md-icon>
-            </md-button>
-            <md-menu-content width="4">
-                <md-menu-item>
-                    <md-button ng-click="widgetsCtrl.edit(widget, widgets)">
-                        <ng-md-icon icon="edit"></ng-md-icon>
-                        Edit
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="widgetsCtrl.add(widget, widgets)">
-                        <ng-md-icon icon="add_circle"></ng-md-icon>
-                        Add
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="widgetsCtrl.remove(widget, widgets)">
-                        <ng-md-icon icon="remove_circle"></ng-md-icon>
-                        Remove
-                    </md-button>
-                </md-menu-item>
-                <md-menu-divider></md-menu-divider>
-                <md-menu-item>
-                    <md-button ng-click="widgetsCtrl.moveUp(widgets, widget)">
-                        <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
-                        Up
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="widgetsCtrl.moveDown(widgets, widget)">
-                        <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
-                        Down
-                    </md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
-        <widget contents='widget' type="widget" index="{{ $index }}"/>
-    </section>
+<style>
+    .widgetEditButton {
+        color: #aaa;
+    }
+
+    .widgetEditButton:hover {
+        color: #ccc;
+    }
+</style>
+<div ng-repeat="widget in widgets" style="position:relative;">
+    <md-menu ng-if="edit == true" style="position: absolute;right: 0px;top: 32px;">
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button md-primary" ng-click="widgetsCtrl.openMenu($mdOpenMenu, $event)">
+            <ng-md-icon class="ic_24px" icon="menu"></ng-md-icon>
+        </md-button>
+        <md-menu-content width="4">
+            <md-menu-item>
+                <md-button ng-click="widgetsCtrl.edit(widget, widgets)">
+                    <ng-md-icon icon="edit"></ng-md-icon>
+                    Edit
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="widgetsCtrl.add(widget, widgets)">
+                    <ng-md-icon icon="add_circle"></ng-md-icon>
+                    Add
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="widgetsCtrl.remove(widget, widgets)">
+                    <ng-md-icon icon="remove_circle"></ng-md-icon>
+                    Remove
+                </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+                <md-button ng-click="widgetsCtrl.moveUp(widgets, widget)">
+                    <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+                    Up
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="widgetsCtrl.moveDown(widgets, widget)">
+                    <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+                    Down
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+    <widget style="margin-right:64px;" contents='widget' type="widget" index="{{ $index }}"/>
 </div>

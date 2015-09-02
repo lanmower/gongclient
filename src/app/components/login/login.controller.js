@@ -26,6 +26,7 @@ module.controller('LoginCtrl', ['$http', '$window', '$scope', 'login', 'Restangu
     $scope.login = function (user) {
         loginService.login(user).then(function () {
             authService.loginConfirmed();
+            loginService.data.loggingIn = false;
         });
     };
     $scope.googleSignin = function (user) {

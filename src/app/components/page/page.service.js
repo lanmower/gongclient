@@ -42,12 +42,17 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
                         id = data[x].id;
                         self.data.currentPage = data[x];
                         if(self.data.currentPage.page) {
-                            self.data.currentPage.get().then(function() {
+                            if(self.data.firstload != true) {
+                                self.data.currentPage.get().then(function() {
+                                    self.data.currentPage.data = JSON.parse(self.data.currentPage.page);
+                                    self.data.loading = false;
+                                    self.pageDeferred.resolve(self.data.currentPage);
+                                });
+                            } else {
                                 self.data.currentPage.data = JSON.parse(self.data.currentPage.page);
-                                self.data.loading = false;
                                 self.data.firstload = false;
-                                self.pageDeferred.resolve(self.data.currentPage);
-                            });
+                                self.data.loading = false;
+                            }
                         };
                     }
                 }

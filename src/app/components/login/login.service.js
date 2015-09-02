@@ -153,7 +153,6 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
                                 success: function(result) {
                                     $window.sessionStorage.token = result.access_token;
                                     authService.loginConfirmed();
-                                    console.log(result.access_token);
                                 },
                                 data: authResult
                             });
