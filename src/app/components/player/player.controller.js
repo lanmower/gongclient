@@ -7,7 +7,7 @@ angular.module('gong.player')
         $scope.currentVideo = 0;
 
         $scope.videos = [
-            {
+            /*{
                 title: "asdf",
                 sources: [
                     {
@@ -36,7 +36,7 @@ angular.module('gong.player')
                         type: "video/ogg"
                     }
                 ]
-            }
+            }*/
 
         ];
 

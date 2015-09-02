@@ -1,42 +1,44 @@
-<md-list-item ng-repeat="item in menu" ng-click="menuCtrl.select($index)" ng-class="{'selected' : item === menu.selected }">
-    <md-menu >
-        <md-button aria-label="Open phone interactions menu" class="md-icon-button md-primary" ng-click="menuCtrl.openMenu($mdOpenMenu, $event)">
-            <ng-md-icon class="ic_24px" icon="menu">
-            </ng-md-icon>
-        </md-button>
-        <md-menu-content width="4">
-            <md-menu-item>
-                <md-button ng-click="menuCtrl.edit(true)">
-                    <ng-md-icon icon="edit"></ng-md-icon>
-                    Edit
-                </md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="menuCtrl.add(item, menu)">
-                    <ng-md-icon icon="add_circle"></ng-md-icon>
-                    Add
-                </md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="menuCtrl.remove(item, menu)">
-                    <ng-md-icon icon="remove_circle"></ng-md-icon>
-                    Remove
-                </md-button>
-            </md-menu-item>
-            <md-menu-divider></md-menu-divider>
-            <md-menu-item>
-                <md-button ng-click="menuCtrl.moveUp(menu, item)">
-                    <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
-                    Up
-                </md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="menuCtrl.moveDown(menu, item)">
-                    <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
-                    Down
-                </md-button>
-            </md-menu-item>
-        </md-menu-content>
-    </md-menu>
+<section ng-repeat="item in menu">
+<md-menu style="position:absolute;right:0px">
+    <md-button aria-label="interactions menu" class="md-icon-button md-primary" ng-click="menuCtrl.openMenu($mdOpenMenu, $event)">
+        <ng-md-icon class="ic_24px" icon="menu">
+        </ng-md-icon>
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item>
+            <md-button ng-click="menuCtrl.edit($index, item, true)">
+                <ng-md-icon icon="edit"></ng-md-icon>
+                Edit
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ng-click="menuCtrl.add(item, menu)">
+                <ng-md-icon icon="add_circle"></ng-md-icon>
+                Add
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ng-click="menuCtrl.remove(item, menu)">
+                <ng-md-icon icon="remove_circle"></ng-md-icon>
+                Remove
+            </md-button>
+        </md-menu-item>
+        <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="menuCtrl.moveUp(menu, item)">
+                <ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+                Up
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ng-click="menuCtrl.moveDown(menu, item)">
+                <ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+                Down
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>
+<md-list-item ng-click="menuCtrl.select($index)" ng-class="{'selected' : item === menu.selected }" style="margin-right:64px;">
     {{item.title}}
 </md-list-item>
+</section>

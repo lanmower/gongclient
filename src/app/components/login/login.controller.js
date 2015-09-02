@@ -28,4 +28,7 @@ module.controller('LoginCtrl', ['$http', '$window', '$scope', 'login', 'Restangu
             authService.loginConfirmed();
         });
     };
+    $scope.googleSignin = function (user) {
+        loginService.googleSignin();
+    };
 }]);

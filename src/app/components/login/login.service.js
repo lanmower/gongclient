@@ -2,7 +2,7 @@
 /**
  * Service wrapper for gapi auth functions
  */
-angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 'googleApi', 'clientId', 'scope', 'Restangular', function ($q, $window, $routeParams, googleApi, clientId, scope, Restangular) {
+angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 'googleApi', 'clientId', 'scope', 'Restangular','apiUrl', 'authService', function ($q, $window, $routeParams, googleApi, clientId, scope, Restangular,apiUrl, authService) {
     this.data = {isGuest: true, loggingIn: false};
 
     /**
@@ -97,17 +97,6 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
     }
 
     /**
-     * Prompt user for login/authorization
-     *
-     * @param {String} user Optional login hint indiciating which account should be authorized
-     * @return {Promise} promise that resolves on completion of the login
-     */
-    this.googleLogin = function (user) {
-        var request = buildAuthRequest(false, user);
-        return executeRequest(request);
-    };
-
-    /**
      * Silently check to see if a user has already authorized the app.
      *
      * @param {String} user Optional login hint indiciating which account should be authorized
@@ -117,39 +106,6 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
         var request = buildAuthRequest(true, user);
         var deferred = $q.defer();
         var self = this;
-        //google check
-        //console.log('checking google auth');
-        //executeRequest(request).then(function() {
-        //console.log('google authed');
-        //google authed
-        //if (self.data.isGuest == true) {
-        //    console.log('local not authed');
-            //local not authed
-        //    if ($window.sessionStorage.token) {
-        //        console.log('token found');
-                //token found
-        //        self.data.isGuest = false;
-        //        console.log('authenticated')
-        //        deferred.resolve(true);
-        //    } else {
-        //        console.log('showing login');
-        //        self.showLoginDialog(null, $routeParams.user).then(function () {
-        //            deferred.resolve(true);
-                    //dialog pass
-        //        });
-        //    }
-        //} else {
-        //    console.log('local authed');
-            //local authed
-        //    deferred.resolve(true);
-        //}
-        //}, function() {
-        //    console.log('google not authed');
-        //    self.showGoogleDialog(user).then(function() {
-        //        console.log('dialaog done');
-        //    });
-
-        //});
 
         return deferred.promise;
 
@@ -180,17 +136,32 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
      * @param {Event} $event Optional click event for animations
      * @param {String} user Optional user ID hint if a particular account is required
      */
-    this.showGoogleDialog = function ($event, user) {
-        return $mdDialog.show({
-            targetEvent: $event,
-            templateUrl: "app/components/google/google.html",
-            controller: 'GoogleCtrl',
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            controllerAs: 'ctrl',
-            locals: {
-                user: user
-            }
+    this.googleSignin = function () {
+        console.log('test during');
+        googleApi.then(function (gapi) {
+            gapi.load('auth2', function() {
+                var auth2 = gapi.auth2.init({
+                    client_id: '669341428356-e1mvt5nrvietmq1hl5lpqv4kacs1s2oe.apps.googleusercontent.com'
+                });
+                auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(
+                    function signInCallback(authResult) {
+                        console.log('auth result', authResult);
+                        if (authResult['code']) {
+                            $.ajax({
+                                type: 'POST',
+                                url: apiUrl+'/oauth2/store',
+                                success: function(result) {
+                                    $window.sessionStorage.token = result.access_token;
+                                    authService.loginConfirmed();
+                                    console.log(result.access_token);
+                                },
+                                data: authResult
+                            });
+                        } else {
+                            console.log('There was an error.');
+                        }
+                });
+            });
         });
     };
 

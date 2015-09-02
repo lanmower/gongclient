@@ -8,8 +8,10 @@
             '$location',
             '$routeParams',
             '$q',
+            '$rootScope',
             '$mdToast',
             '$mdMedia',
+            '$rootElement',
             '$mdSidenav',
             '$log',
             'drive',
@@ -26,8 +28,10 @@
                             $location,
                             $routeParams,
                             $q,
+                            $rootScope,
                             $mdToast,
                             $mdMedia,
+                            $rootElement,
                             $mdSidenav,
                             $log,
                             drive,
@@ -51,6 +55,15 @@
         $scope.edit = editService.getData();
         console.log($scope.loginData);
 
+        if(!$rootScope.modalCssLoaded) {
+         var ss = angular.element('<style>');
+
+         ss.text(ss.text()+'@import url("app/components/modal/modal.css");\n');
+
+         $rootElement.append(ss);
+         $scope.cssLoaded = true;
+         console.log('loading css');
+         }
 
         /**
          * Displays a short message as a toast

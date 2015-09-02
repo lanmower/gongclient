@@ -4,14 +4,14 @@
     angular
         .module('gong.menu')
         .controller('MenuCtrl', [
-            '$scope',
+            '$scope', '$rootScope','$q',
             'login',
             'pageService',
             'Restangular',
             MenuController]);
 
     /** @ngInject */
-    function MenuController($scope, login, pageService, Restangular) {
+    function MenuController($scope, $rootScope, $q, login, pageService, Restangular) {
 
         $scope.menu = [];
         pageService.getPages().then(function (data) {
@@ -22,6 +22,7 @@
         /** handle menu click */
         this.select = function ($index) {
             window.location.hash = $scope.menu[$index].location;
+            return true;
         }
         this.openMenu = function($mdOpenMenu, ev) {
             $mdOpenMenu(ev);
@@ -30,12 +31,16 @@
             if(!side) side = "left";
             $mdSidenav(side).toggle();
         }
-        this.edit = function (edit) {
-            console.log(pageService.data.currentPage);
-            if (edit == true) pageService.data.currentPage.copy = angular.copy(pageService.data.currentPage);
-            else angular.copy(pageService.data.currentPage.copy, pageService.data.currentPage);
-            pageService.data.currentPage.edit = edit;
-            console.log('test');
+        this.edit = function ($index, item, edit) {
+            window.location.hash = $scope.menu[$index].location;
+
+                console.log('waited for page');
+                    console.log('waited for route');
+                    if (edit == true) item.copy = angular.copy(item);
+                    else angular.copy(item.copy, item);
+                    console.log('setting edit');
+                    item.edit = edit;
+            return true;
         }
 
         this.add = function (item, items) {
@@ -43,6 +48,15 @@
             var newItem = {newItem: true, type:$scope.create, data:{widgets:[]}, types:['announcement'], location:'new', title:'Untitled Page'};
             items.splice(index, 0, newItem);
             this.edit(true);
+        }
+
+        this.remove = function (item, items) {
+            var idx = items.indexOf(item);
+            item.remove().then(function() {
+                var index = items.indexOf(item);
+                if (index > -1) items.splice(index, 1);
+            });
+            //item.
         }
 
     }

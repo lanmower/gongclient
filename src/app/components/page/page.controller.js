@@ -19,10 +19,9 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
     //$scope.data = pageService.getData($routeParams.fileId);
     var self = this;
     $scope.data = pageService.data;
-    $scope.data.pageloading = true;
-    console.log($scope.data.currentPage);
+    $scope.data.loading = true;
     pageService.getPage(String($routeParams.fileId)).then(function (data) {
-        $scope.data.pageloading = false;
+        $scope.data.loading = false;
     });
 
     this.edit = function (edit) {
@@ -32,7 +31,6 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
     }
 
     this.save = function () {
-        console.log($scope.data.currentPage);
         for(var x = 0; x < $scope.data.currentPage.data.widgets.length; x++) {
             var widget = $scope.data.currentPage.data.widgets[x];
             widget.edit = false;
@@ -43,7 +41,6 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
 
     $scope.selection = [[],[]];
     $scope.$watch('selection', function () {
-        console.log('change', $scope.selection);
         $scope.data.types = [];
         angular.forEach($scope.selection, function (value, index) {
             $scope.data.types[index]=value;

@@ -1,4 +1,5 @@
-<div><md-subheader ng-show="data.currentPage.edit != true">
+<md-progress-linear ng-show="data.loading" md-mode="indeterminate" class="styled-progress"></md-progress-linear>
+<md-subheader ng-show="data.currentPage.edit != true">
     {{ data.currentPage.title }}
 </md-subheader>
 <md-subheader ng-if="data.currentPage.edit == true">
@@ -13,18 +14,14 @@
         Cancel
     </md-button>
 </md-subheader>
-    <div ng-if="data.currentPage.edit == true">
-        <md-input-container style="display:inline-block; padding-bottom:0px">
-            <label>Path</label>
-            <input ng-model="data.currentPage.location" size="50" maxlength="45">
-        </md-input-container>
-        <label ng-repeat="type in data.currentPage.types">
-            {{type}} <input ng-model="selection[$index]" type="checkbox"/>
-        </label>
-    </div>
-    <widgets widgets="data.currentPage.data.widgets" edit="data.currentPage.edit" create="{{data.currentPage.data.types[0]}}"/>
-
-    <div ng-show="data.pageloading" layout-align="center center" flex layout="column">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-    </div>
+<div ng-if="data.currentPage.edit == true">
+    <md-input-container style="display:inline-block; padding-bottom:0px">
+        <label>Path</label>
+        <input ng-model="data.currentPage.location" size="50" maxlength="45">
+    </md-input-container>
+    <label ng-repeat="type in data.currentPage.types">
+        {{type}} <input ng-model="selection[$index]" type="checkbox"/>
+    </label>
 </div>
+<widgets widgets="data.currentPage.data.widgets" edit="data.currentPage.edit" create="{{data.currentPage.data.types[0]}}"/>
+

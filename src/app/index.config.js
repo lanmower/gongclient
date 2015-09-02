@@ -28,7 +28,7 @@
     });
 
     /** @ngInject */
-    function config($logProvider, $routeProvider, RestangularProvider, $httpProvider, $mdThemingProvider) {
+    function config($logProvider, $routeProvider, RestangularProvider, $httpProvider, $mdThemingProvider,apiUrl) {
         $routeProvider
             .when('/:fileId?', {
                 templateUrl: 'app/components/page/page.html',
@@ -44,7 +44,8 @@
         $httpProvider.interceptors.push('authInterceptor');
         $httpProvider.defaults.withCredentials = true;
         $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
-        RestangularProvider.setBaseUrl('http://gong');
+        RestangularProvider.setBaseUrl(apiUrl);
+
 
 
         var theme = $mdThemingProvider.theme('default');
@@ -57,12 +58,6 @@
         .accentPalette('orange')
         .warnPalette('orange')
         .backgroundPalette('grey')
-
-
-
-
-
-
     }
 
 })();

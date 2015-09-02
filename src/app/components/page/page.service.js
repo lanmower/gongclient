@@ -18,21 +18,21 @@
 angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
-    this.data = {pages: [], currentPage: {data: {widgets: []}}};
+    this.data = {pages: [], loading:true, firstload:true, currentPage: {data: {widgets: []}}};
     var listDeferred = $q.defer();
+    this.pageDeferred = null;
     this.getPage = function (location, $scope) {
         self.data.title = '';
-        self.data.currentPage.data = {};
-        var deferred = $q.defer();
+        //self.data.currentPage.data = {};
+        this.pageDeferred = $q.defer();
         //wait for menu load, then load page based on id info from menu
+        this.data.loading = true;
         listDeferred.promise.then(function (data) {
             var id = null;
             if (location == 'logout') {
                 loginService.logout().then(function () {
                     console.log('logged out');
-                    this.getPages(true).then(function(pages) {
-
-                    });
+                    self.getPages(true).then(function(pages) {});
                 }, function (response) {
                     console.log('error');
                 });
@@ -41,14 +41,19 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
                     if (data[x].location == location) {
                         id = data[x].id;
                         self.data.currentPage = data[x];
-                        if(self.data.currentPage.page) self.data.currentPage.data = JSON.parse(self.data.currentPage.page);
-
-                        deferred.resolve(self.data.currentPage);
+                        if(self.data.currentPage.page) {
+                            self.data.currentPage.get().then(function() {
+                                self.data.currentPage.data = JSON.parse(self.data.currentPage.page);
+                                self.data.loading = false;
+                                self.data.firstload = false;
+                                self.pageDeferred.resolve(self.data.currentPage);
+                            });
+                        };
                     }
                 }
             }
         });
-        return deferred.promise;
+        return this.pageDeferred.promise;
     };
 
     this.savePage = function () {
@@ -57,13 +62,13 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
         console.log(this.data.currentPage);
         var page = JSON.stringify(this.data.currentPage.data);
         var title = this.data.currentPage.title;
-        this.data.pageloading = true;
+        this.data.loading = true;
         if(!this.data.currentPage.newItem) {
             this.data.currentPage.patch(
                 {'title':title, 'location':this.data.currentPage.location, 'page':page}).then(function () {
                     console.log('saved');
                     self.data.currentPage.edit = false;
-                    self.data.pageloading = false;
+                    self.data.loading = false;
                     self.getPages().then(function () {
                         console.log('refreshed');
                     });
@@ -75,7 +80,7 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
                     data.post({'title':title, 'location':self.data.currentPage.location, 'page':page}).then(function () {
                         console.log('saved');
                         self.data.currentPage.edit = false;
-                        self.data.pageloading = false;
+                        self.data.loading = false;
                         self.getPages().then(function () {
                             console.log('refreshed');
                         });
@@ -95,6 +100,7 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
                 self.data.pages = data;
                 deferred.resolve(data);
             });
+
         } else {
             deferred.resolve(this.data.pages);
         }
