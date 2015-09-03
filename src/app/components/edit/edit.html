@@ -1,9 +1,7 @@
 <div  style="max-width:300px;">
-{{page.currentPage.page.types}}
 <span ng-init="data.widget.type = data.widget.type || page.currentPage.page.types[0]"> </span>
 <label ng-if="page.currentPage.page.types.length >= 1">Type</label>
-<select ng-model="data.widget.type" ng-selected="data.widget.type"
-        ng-options="type as type for type in types"></select>
+<select ng-model="data.widget.type" ng-selected="data.widget.type" ng-options="type as type for type in types"></select>
 <widget type='widget' contents='data.widget' edit="true" index="{{ $index }}" ng-if="data.editing"/>
 
 </div>

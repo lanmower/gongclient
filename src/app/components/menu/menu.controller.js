@@ -53,7 +53,6 @@
                 var index = items.indexOf(item);
                 if (index > -1) items.splice(index, 1);
             });
-            //item.
         }
 
     }

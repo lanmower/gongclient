@@ -16,17 +16,26 @@ angular.module('gong.edit')
 
         $scope.data = editService.getData();
         $scope.page = pageService.data;
-        $scope.types = [];
-        for (var i in $scope.page.types) {
-            if($scope.page.types[i] == true) {
-                //$scope.page.currentPage
-                var types = $scope.page.currentPage.data.types;
-                console.log(types);
-                for (var i in types) {
-                    if(types[i]) $scope.types.push(i);
+        var updateTypes = function() {
+            $scope.types = [];
+            for (var i in $scope.page.types) {
+                if($scope.page.types[i] == true) {
+                    console.log($scope.page.types[i]);
+                    //$scope.page.currentPage
+                    var types = $scope.page.currentPage.data.types;
+                    for (var j in types) {
+                        console.log(types[j]);
+                        if(types[j] == true && j == i) $scope.types.push(j);
+                    }
                 }
             }
         }
+
+        $scope.$watch('page.currentPage.data.types', function () {
+            console.log($scope.page.currentPage.data.types);
+            updateTypes();
+        }, true);
+
 
         console.log($scope.types);
     }]

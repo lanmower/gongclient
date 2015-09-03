@@ -43,7 +43,4 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
         angular.forEach($scope.data.types, function (value, index) {
         });
     }
-    $scope.$watch('data.currentPage.data.types', function () {
-        console.log($scope.data.currentPage.data.types);
-    }, true);
 }]);

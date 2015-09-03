@@ -18,7 +18,7 @@
 angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
-    this.data = {pages: [], types:{'announcement':true, 'form':true, 'calendar':true, 'header':true, 'image':true,'paragraph':true,'postlist':true}, loading:true, firstload:true, currentPage: {data: {widgets: []}}};
+    this.data = {pages: [], currentPage: {data: {widgets: []}}, types:{'announcement':true, 'form':true, 'calendar':true, 'header':true, 'image':true,'paragraph':true,'postlist':true}, loading:true, firstload:true};
     var listDeferred = $q.defer();
     this.pageDeferred = null;
     this.getPage = function (location, $scope) {
@@ -64,9 +64,9 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
     this.savePage = function () {
 
         delete this.data.currentPage.copy;
-        console.log(this.data.currentPage);
-        var page = JSON.stringify(this.data.currentPage.data);
+        var page = this.data.currentPage.page = JSON.stringify(this.data.currentPage.data);
         var title = this.data.currentPage.title;
+        console.log(this.data.currentPage);
         this.data.loading = true;
         if(!this.data.currentPage.newItem) {
             this.data.currentPage.patch(
