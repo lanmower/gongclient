@@ -58,7 +58,7 @@
         if(!$rootScope.modalCssLoaded) {
          var ss = angular.element('<style>');
 
-         ss.text(ss.text()+'@import url("app/components/main/main.css");\n');
+         ss.text(ss.text()+'@import url("app/main/main.css");\n');
 
          $rootElement.append(ss);
          $scope.cssLoaded = true;

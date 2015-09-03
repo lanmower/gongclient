@@ -18,7 +18,7 @@
 angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
-    this.data = {pages: [], loading:true, firstload:true, currentPage: {data: {widgets: []}}};
+    this.data = {pages: [], types:{'announcement':true, 'form':true, 'calendar':true, 'header':true, 'image':true,'paragraph':true,'postlist':true}, loading:true, firstload:true, currentPage: {data: {widgets: []}}};
     var listDeferred = $q.defer();
     this.pageDeferred = null;
     this.getPage = function (location, $scope) {

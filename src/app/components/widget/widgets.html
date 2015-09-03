@@ -1,8 +1,17 @@
 <div style="height:90px;" ng-if="widgets.length < 1">
-    <!--md-button aria-label="menu" class="md-fab md-warn md-mini" ng-click="widgetsCtrl.add(widgets)">
-        <ng-md-icon icon="add">
-        </ng-md-icon>
-    </md-button-->
+    <md-menu ng-if="edit == true" style="position: absolute;right: 0px;top: 32px;">
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button md-primary" ng-click="widgetsCtrl.openMenu($mdOpenMenu, $event)">
+            <ng-md-icon class="ic_24px" icon="menu"></ng-md-icon>
+        </md-button>
+        <md-menu-content width="4">
+            <md-menu-item>
+                <md-button ng-click="widgetsCtrl.add(widget, widgets)">
+                    <ng-md-icon icon="add_circle"></ng-md-icon>
+                    Add
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
 </div>
 
 <style>

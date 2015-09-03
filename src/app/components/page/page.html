@@ -19,8 +19,8 @@
         <label>Path</label>
         <input ng-model="data.currentPage.location" size="50" maxlength="45">
     </md-input-container>
-    <label ng-repeat="type in data.currentPage.types">
-        {{type}} <input ng-model="selection[$index]" type="checkbox"/>
+    <label ng-repeat="(type,val) in data.types">
+        <md-checkbox ng-checked="data.currentPage.data.types[type]" name="type" value="type"/>{{type}}
     </label>
 </div>
 <widgets widgets="data.currentPage.data.widgets" edit="data.currentPage.edit" create="{{data.currentPage.data.types[0]}}"/>

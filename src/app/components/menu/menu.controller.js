@@ -16,7 +16,6 @@
         $scope.menu = [];
         pageService.getPages().then(function (data) {
             $scope.menu = pageService.data.pages;
-            console.log($scope.menu);
         });
         $scope.loginData = login.data;
         /** handle menu click */
@@ -32,20 +31,18 @@
             $mdSidenav(side).toggle();
         }
         this.edit = function ($index, item, edit) {
-            window.location.hash = $scope.menu[$index].location;
-
-                console.log('waited for page');
-                    console.log('waited for route');
-                    if (edit == true) item.copy = angular.copy(item);
-                    else angular.copy(item.copy, item);
-                    console.log('setting edit');
-                    item.edit = edit;
-            return true;
+            if($scope.menu[$index]) {
+                window.location.hash = $scope.menu[$index].location;
+                if (edit == true) item.copy = angular.copy(item);
+                else angular.copy(item.copy, item);
+                item.edit = edit;
+                return true;
+            }
         }
 
         this.add = function (item, items) {
             var index = items.indexOf(item);
-            var newItem = {newItem: true, type:$scope.create, data:{widgets:[]}, types:['announcement'], location:'new', title:'Untitled Page'};
+            var newItem = {newItem: true, type:$scope.create, data:{widgets:[]}, types:{'announcement':true}, location:'new', title:'Untitled Page'};
             items.splice(index, 0, newItem);
             this.edit(true);
         }

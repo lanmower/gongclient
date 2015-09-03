@@ -20,18 +20,14 @@ angular.module('gong.widget').controller('WidgetsCtrl', ['$mdDialog', '$timeout'
     $scope.page = pageService.data.currentPage;
     this.add = function (item, items) {
         var index = items.indexOf(item);
-        var newItem = {new: true, type:$scope.create};
+        var newItem = {new: true, type:Object.keys(pageService.data.types)[0]};
+        console.log(newItem);
         items.splice(index, 0, newItem);
         this.edit(newItem, items);
-        //if (index) {
-        //} else {
-        //    items.push({new: true});
-        //}
     }
 
     this.edit = function (item, items) {
         editService.setWidget(item);
-        console.log(item);
         if(item.edit != true) {
             var copy = angular.copy(item);
             item.copy = copy;
@@ -50,15 +46,11 @@ angular.module('gong.widget').controller('WidgetsCtrl', ['$mdDialog', '$timeout'
         editService.setEditing(false);
         console.log(item);
         var index = items.indexOf(item);
-        if (item.new == true) {
-            items.splice(index, 1);
-        } else {
-            var item = items[index];
-            item.edit = false;
-            editService.setEditing(false);
-            angular.copy(item.copy, items[index]);
-            delete item.copy;
-        }
+        var item = items[index];
+        item.edit = false;
+        editService.setEditing(false);
+        angular.copy(item.copy, items[index]);
+        delete item.copy;
     };
 
     this.save = function (item) {

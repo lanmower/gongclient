@@ -38,12 +38,12 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
         }
         pageService.savePage();
     }
-
-    $scope.selection = [[],[]];
-    $scope.$watch('selection', function () {
-        $scope.data.types = [];
-        angular.forEach($scope.selection, function (value, index) {
-            $scope.data.types[index]=value;
+    $scope.data.currentPage.data.types = $scope.selection = {};
+    if($scope.data.currentPage.data.types) {
+        angular.forEach($scope.data.types, function (value, index) {
         });
+    }
+    $scope.$watch('data.currentPage.data.types', function () {
+        console.log($scope.data.currentPage.data.types);
     }, true);
 }]);

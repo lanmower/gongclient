@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.edit', ['restangular', 'ngSanitize']).service('editService', ['$http', '$q', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
+angular.module('gong.edit').service('editService', ['$http', '$q', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
     var data = {widget:{}, editing:false};
