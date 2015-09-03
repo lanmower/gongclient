@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('gong', [
-        'textAngular',
-        'ngFileUpload',
-        'ngMdIcons',
+        //'textAngular',
+        //'ngFileUpload',
+        //'ngMdIcons',
         'gong.login',
         'gong.rename',
         'gong.drive',
@@ -18,8 +18,8 @@
         'gong.menu',
         //'http-auth-interceptor',
         'ngAnimate',
-        'ngCookies',
-        'ngTouch',
+        //'ngCookies',
+        //'ngTouch',
         'ngSanitize',
         'ngResource',
         'ngMaterial',

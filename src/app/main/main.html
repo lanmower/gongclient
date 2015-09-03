@@ -4,6 +4,9 @@
     }
 </style>
 <md-progress-linear ng-show="page.firstload && !loginData.loggingIn" md-mode="indeterminate"></md-progress-linear>
+<md-button  ng-hide="page.firstload || loginData.loggingIn" ng-click="ctrl.showMenu('right')" class="md-fab" aria-label="Eat cake" style="right:0px; top:2em; right:2em; position:fixed">
+    <ng-md-icon icon="play_arrow" size="40" style="fill:white;"></ng-md-icon>
+</md-button>
 <md-toolbar class="grow" layout="row" ng-hide="loginData.loggingIn || page.firstload">
     <div class="md-toolbar-tools">
         <md-button ng-click="ctrl.showMenu('left')" hide-gt-sm class="md-icon-button menuBtn">
@@ -20,9 +23,6 @@
 </md-sidenav>
 <div style="position:relative; height:100%" ng-hide="page.firstload || loginData.loggingIn" class="fadein">
 <md-content layout="row" flex style="position:absolute;top:0px;bottom:0px;right:0px;left:0px;overflow:hidden;">
-    <md-button  ng-hide="page.firstload || loginData.loggingIn" ng-click="ctrl.showMenu('right')" class="md-fab" aria-label="Eat cake" style="right:0px; top:2em; right:2em; position:fixed">
-        <ng-md-icon icon="play_arrow" size="40" style="fill:white;"></ng-md-icon>
-    </md-button>
     <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
         <menu style="padding: 0px;"/>
     </md-sidenav>
