@@ -15,14 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout', '$rootScope', '$scope', '$routeParams', 'Restangular', 'pageService', function ($mdDialog, $timeout, $rootScope, $scope, $routeParams, Restangular, pageService) {
+angular.module('gong.page').controller('PageController', ['$mdDialog', '$window', '$timeout', '$rootScope', '$scope', '$routeParams', 'Restangular', 'pageService', function ($mdDialog, $window, $timeout, $rootScope, $scope, $routeParams, Restangular, pageService) {
     //$scope.data = pageService.getData($routeParams.fileId);
     var self = this;
     $scope.data = pageService.data;
     $scope.data.loading = true;
-    console.log(String($routeParams.fileId));
-    pageService.getPage(String($routeParams.fileId)).then(function (data) {
-        $scope.data.loading = false;
+    $scope.$watch(function () {
+        return location.hash
+    }, function (value) {
+        pageService.getPage($window.location.hash.substring(2)).then(function (data) {
+            $scope.data.loading = false;
+        });
     });
     this.edit = function (edit) {
         if (edit == true) $scope.data.currentPage.copy = angular.copy($scope.data.currentPage);

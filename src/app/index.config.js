@@ -12,7 +12,7 @@
                     config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
                 }
                 return config;
-            },
+            }
         };
     });
 
@@ -36,10 +36,10 @@
                 controllerAs: 'page'
             })
             .otherwise({
-                //redirectTo: function() {
-                //  console.log("Otherwise...");
-                //  return '/edit/';
-                //}
+                redirectTo: function() {
+                  console.log("Otherwise...");
+                  return '/undefined';
+                }
             });
         $httpProvider.interceptors.push('authInterceptor');
         $httpProvider.defaults.withCredentials = true;

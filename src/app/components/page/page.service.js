@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
+angular.module('gong.page').service('pageService', ['$http', '$q', '$mdDialog', 'Restangular', 'login', function ($http, $q, $mdDialog, Restangular, loginService) {
     var self = this;
 
     this.data = {pages: [], currentPage: {data: {widgets: []}}, types:{'announcement':true, 'form':true, 'calendar':true, 'header':true, 'image':true,'paragraph':true,'postlist':true}, loading:true, firstload:true};
@@ -106,6 +106,7 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
                 data.push({location: 'logout', title: 'Logout', id: 'logout'});
                 self.data.pages = data;
                 deferred.resolve(data);
+                self.data.firstload = false;
             });
 
         } else {
