@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('gong', [
-        //'textAngular',
+        'textAngular',
         //'ngFileUpload',
         //'ngMdIcons',
         'gong.login',

@@ -4,7 +4,7 @@
     }
 </style>
 <md-progress-linear ng-show="page.firstload && !loginData.loggingIn" md-mode="indeterminate"></md-progress-linear>
-<md-button  ng-hide="page.firstload || loginData.loggingIn" ng-click="ctrl.showMenu('right')" class="md-fab" aria-label="Eat cake" style="right:0px; top:2em; right:2em; position:fixed">
+<md-button ng-if="loginData.roles.indexOf('admin') != -1" ng-hide="page.firstload || loginData.loggingIn" ng-click="ctrl.showMenu('right')" class="md-fab" aria-label="Eat cake" style="right:0px; top:2em; right:2em; position:fixed">
     <ng-md-icon icon="play_arrow" size="40" style="fill:white;"></ng-md-icon>
 </md-button>
 <md-toolbar class="grow" layout="row" ng-hide="loginData.loggingIn || page.firstload">

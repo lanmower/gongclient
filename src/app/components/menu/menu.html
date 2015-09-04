@@ -1,5 +1,7 @@
+
 <section ng-repeat="item in menu">
-<md-menu style="position:absolute;right:0px">
+
+<md-menu style="position:absolute;right:0px" ng-if="loginData.roles.indexOf('admin') != -1">
     <md-button aria-label="interactions menu" class="md-icon-button md-primary" ng-click="menuCtrl.openMenu($mdOpenMenu, $event)">
         <ng-md-icon class="ic_24px" icon="menu">
         </ng-md-icon>

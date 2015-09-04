@@ -3,8 +3,8 @@
  * Service wrapper for gapi auth functions
  */
 angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 'googleApi', 'clientId', 'scope', 'Restangular','apiUrl', 'authService', function ($q, $window, $routeParams, googleApi, clientId, scope, Restangular,apiUrl, authService) {
-    this.data = {isGuest: true, loggingIn: false};
-
+    var self = this;
+    this.data = {isGuest: true, loggingIn: false, roles: $window.sessionStorage.roles};
     /**
      * Check if the current token is valid (exists & not expired.)
      *
@@ -61,7 +61,6 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
     };
 
     this.logout = function() {
-        var self = this;
         self.page = Restangular.one('oauth2', 'logout');
         var deferred = $q.defer();
         self.page.post().then(function(result) {
@@ -89,6 +88,7 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
         rest.post('token', model).then(function (data) {
             deferred.resolve(data.access_token);
             $window.sessionStorage.token = data.access_token;
+            $window.sessionStorage.roles = self.data.roles = data.roles;
 
         }, function (data) {
             deferred.reject(data);
@@ -105,7 +105,6 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
     this.checkAuth = function (user) {
         var request = buildAuthRequest(true, user);
         var deferred = $q.defer();
-        var self = this;
 
         return deferred.promise;
 
@@ -152,6 +151,7 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
                                 url: apiUrl+'/oauth2/store',
                                 success: function(result) {
                                     $window.sessionStorage.token = result.access_token;
+                                    $window.sessionStorage.roles = self.data.roles = result.roles;
                                     authService.loginConfirmed();
                                 },
                                 data: authResult

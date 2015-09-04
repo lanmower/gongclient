@@ -24,7 +24,7 @@
     }
 </style>
 <div ng-repeat="widget in widgets" style="position:relative;">
-    <md-menu ng-if="edit == true" style="position: absolute;right: 0px;top: 32px;">
+    <md-menu ng-if="edit == true && loginData.roles.indexOf('admin') != -1" style="position: absolute;right: 0px;top: 32px;">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button md-primary" ng-click="widgetsCtrl.openMenu($mdOpenMenu, $event)">
             <ng-md-icon class="ic_24px" icon="menu"></ng-md-icon>
         </md-button>
