@@ -20,10 +20,10 @@ angular.module('gong.page').controller('PageController', ['$mdDialog', '$timeout
     var self = this;
     $scope.data = pageService.data;
     $scope.data.loading = true;
+    console.log(String($routeParams.fileId));
     pageService.getPage(String($routeParams.fileId)).then(function (data) {
         $scope.data.loading = false;
     });
-
     this.edit = function (edit) {
         if (edit == true) $scope.data.currentPage.copy = angular.copy($scope.data.currentPage);
         else angular.copy($scope.data.currentPage.copy, $scope.data.currentPage);

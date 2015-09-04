@@ -27,6 +27,7 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
         this.pageDeferred = $q.defer();
         //wait for menu load, then load page based on id info from menu
         this.data.loading = true;
+        console.log(location);
         listDeferred.promise.then(function (data) {
             var id = null;
             if (location == 'logout') {
@@ -39,6 +40,7 @@ angular.module('gong.page', ['restangular', 'ngSanitize']).service('pageService'
             } else {
                 for (var x = 0; x < data.length; x++) {
                     if (data[x].location == location) {
+                        console.log(data[x]);
                         id = data[x].id;
                         self.data.currentPage = data[x];
                         if(self.data.currentPage.page) {
