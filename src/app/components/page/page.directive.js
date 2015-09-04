@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-angular.module('gong.page', ['restangular', 'ngSanitize']).directive('page', function ($compile, $http) {
+angular.module('gong.page', ['restangular', 'ngSanitize']).directive('pageview', function ($compile, $http) {
+    console.log('test');
     return {
         controller: 'PageController',
         controllerAs: 'page',
