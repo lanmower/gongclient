@@ -135,33 +135,33 @@ angular.module('gong.login').service('login', ['$q', '$window', '$routeParams', 
      * @param {Event} $event Optional click event for animations
      * @param {String} user Optional user ID hint if a particular account is required
      */
-    this.googleSignin = function () {
-        console.log('test during');
-        googleApi.then(function (gapi) {
-            gapi.load('auth2', function() {
-                var auth2 = gapi.auth2.init({
-                    client_id: '669341428356-e1mvt5nrvietmq1hl5lpqv4kacs1s2oe.apps.googleusercontent.com'
+    googleApi.then(function (gapi) {
+                gapi.load('auth2', function() {
+                    self.googleSignin = function () {
+                        console.log('test during');
+                    var auth2 = gapi.auth2.init({
+                        client_id: '669341428356-e1mvt5nrvietmq1hl5lpqv4kacs1s2oe.apps.googleusercontent.com'
+                    });
+                    auth2.grantOfflineAccess({'redirect_uri': 'postmessage', immediate:false}).then(
+                        function signInCallback(authResult) {
+                            console.log('auth result', authResult);
+                            if (authResult['code']) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: apiUrl+'/oauth2/store',
+                                    success: function(result) {
+                                        $window.sessionStorage.token = result.access_token;
+                                        $window.sessionStorage.roles = self.data.roles = result.roles;
+                                        authService.loginConfirmed();
+                                    },
+                                    data: authResult
+                                });
+                            } else {
+                                console.log('There was an error.');
+                            }
+                        });
+                    };
                 });
-                auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(
-                    function signInCallback(authResult) {
-                        console.log('auth result', authResult);
-                        if (authResult['code']) {
-                            $.ajax({
-                                type: 'POST',
-                                url: apiUrl+'/oauth2/store',
-                                success: function(result) {
-                                    $window.sessionStorage.token = result.access_token;
-                                    $window.sessionStorage.roles = self.data.roles = result.roles;
-                                    authService.loginConfirmed();
-                                },
-                                data: authResult
-                            });
-                        } else {
-                            console.log('There was an error.');
-                        }
-                });
-            });
         });
-    };
 
 }]);
